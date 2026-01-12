@@ -1,0 +1,193 @@
+import 'dart:async';
+import 'package:flutter/material.dart';
+import 'dart:math';
+import '../../core/game/mini_game.dart';
+
+class BrickBreakerController extends ChangeNotifier implements MiniGame {
+  bool _isPlaying = false;
+  int _score = 0;
+  double _paddleX = 0.5;
+  double _ballX = 0.5;
+  double _ballY = 0.7;
+  double _ballVelX = 0.02;
+  double _ballVelY = -0.02;
+  List<bool> _bricks = List.filled(30, true);
+  Timer? _timer;
+
+  double get paddleX => _paddleX;
+  double get ballX => _ballX;
+  double get ballY => _ballY;
+  List<bool> get bricks => _bricks;
+
+  void movePaddle(double delta) {
+    if (!_isPlaying) return;
+    _paddleX = (_paddleX + delta).clamp(0.1, 0.9);
+    notifyListeners();
+  }
+
+  @override
+  void start() {
+    if (_isPlaying) return;
+    _isPlaying = true;
+    _timer = Timer.periodic(const Duration(milliseconds: 16), (_) => _update());
+  }
+
+  void _update() {
+    if (!_isPlaying) return;
+
+    _ballX += _ballVelX;
+    _ballY += _ballVelY;
+
+    // Wall collision
+    if (_ballX <= 0.02 || _ballX >= 0.98) _ballVelX *= -1;
+    if (_ballY <= 0.02) _ballVelY *= -1;
+
+    // Paddle collision
+    if (_ballY >= 0.88 && _ballY <= 0.9 && (_ballX - _paddleX).abs() < 0.1) {
+      _ballVelY *= -1;
+      _ballVelX += (_ballX - _paddleX) * 0.1;
+    }
+
+    // Brick collision
+    for (int i = 0; i < _bricks.length; i++) {
+      if (!_bricks[i]) continue;
+      final row = i ~/ 6;
+      final col = i % 6;
+      final brickX = col * 0.16 + 0.08;
+      final brickY = row * 0.06 + 0.1;
+      
+      if ((_ballX - brickX).abs() < 0.08 && (_ballY - brickY).abs() < 0.03) {
+        _bricks[i] = false;
+        _ballVelY *= -1;
+        _score += 10;
+      }
+    }
+
+    // Game over
+    if (_ballY > 1.0) {
+      _isPlaying = false;
+      _timer?.cancel();
+    }
+
+    notifyListeners();
+  }
+
+  @override
+  void pause() {
+    _isPlaying = false;
+    _timer?.cancel();
+  }
+
+  @override
+  void reset() {
+    _score = 0;
+    _paddleX = 0.5;
+    _ballX = 0.5;
+    _ballY = 0.7;
+    _ballVelX = 0.02;
+    _ballVelY = -0.02;
+    _bricks = List.filled(30, true);
+    start();
+  }
+
+  @override
+  int get score => _score;
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+}
+
+class BrickBreakerWidget extends StatelessWidget {
+  final BrickBreakerController controller;
+
+  const BrickBreakerWidget({super.key, required this.controller});
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: controller,
+      builder: (context, child) {
+        return GestureDetector(
+          onPanUpdate: (details) {
+            controller.movePaddle(details.delta.dx / MediaQuery.of(context).size.width);
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [Colors.indigo.shade900, Colors.black],
+              ),
+            ),
+            child: CustomPaint(
+              painter: BrickBreakerPainter(controller),
+              size: Size.infinite,
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class BrickBreakerPainter extends CustomPainter {
+  final BrickBreakerController controller;
+
+  BrickBreakerPainter(this.controller);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    // Draw bricks
+    for (int i = 0; i < controller.bricks.length; i++) {
+      if (!controller.bricks[i]) continue;
+      final row = i ~/ 6;
+      final col = i % 6;
+      final x = col * size.width * 0.16 + size.width * 0.02;
+      final y = row * size.height * 0.06 + size.height * 0.1;
+      
+      final paint = Paint()
+        ..color = Colors.primaries[i % Colors.primaries.length]
+        ..style = PaintingStyle.fill;
+      
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(
+          Rect.fromLTWH(x, y, size.width * 0.14, size.height * 0.05),
+          const Radius.circular(8),
+        ),
+        paint,
+      );
+    }
+
+    // Draw paddle
+    final paddlePaint = Paint()
+      ..color = Colors.cyan
+      ..style = PaintingStyle.fill;
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromCenter(
+          center: Offset(controller.paddleX * size.width, size.height * 0.9),
+          width: size.width * 0.2,
+          height: 15,
+        ),
+        const Radius.circular(8),
+      ),
+      paddlePaint,
+    );
+
+    // Draw ball
+    final ballPaint = Paint()
+      ..color = Colors.white
+      ..style = PaintingStyle.fill;
+    canvas.drawCircle(
+      Offset(controller.ballX * size.width, controller.ballY * size.height),
+      10,
+      ballPaint,
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
+}
