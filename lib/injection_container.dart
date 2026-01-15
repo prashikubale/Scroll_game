@@ -7,6 +7,8 @@ import 'features/game_feed/data/repositories/game_repository_impl.dart';
 import 'features/game_feed/domain/repositories/game_repository.dart';
 import 'features/game_feed/domain/usecases/get_games_feed.dart';
 import 'features/game_feed/domain/usecases/save_game_score.dart';
+import 'features/game_feed/domain/usecases/get_game_sessions.dart';
+import 'features/game_feed/domain/usecases/save_game_session.dart';
 
 final sl = GetIt.instance;
 
@@ -15,6 +17,8 @@ Future<void> init() async {
   // UseCases
   sl.registerLazySingleton(() => GetGamesFeed(sl()));
   sl.registerLazySingleton(() => SaveGameScore(sl()));
+  sl.registerLazySingleton(() => GetGameSessions(sl()));
+  sl.registerLazySingleton(() => SaveGameSession(sl()));
 
   // Repository
   sl.registerLazySingleton<GameRepository>(

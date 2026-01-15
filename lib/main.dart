@@ -5,6 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'injection_container.dart' as di;
 import 'features/game_feed/presentation/pages/game_feed_page.dart';
 import 'features/splash/splash_screen.dart';
+import 'features/starting_page/presentation/pages/sun_starting_page.dart';
+import 'core/app_scroll_behavior.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,6 +27,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      scrollBehavior: AppScrollBehavior(),
       title: 'Arcade Mini Games',
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: Colors.black,
@@ -35,9 +38,7 @@ class _MyAppState extends State<MyApp> {
         ),
         textTheme: GoogleFonts.poppinsTextTheme(ThemeData.dark().textTheme),
       ),
-      home: _showSplash 
-          ? SplashScreen(onComplete: () => setState(() => _showSplash = false))
-          : const GameFeedPage(),
+      home: const SunStartingPage(),
       debugShowCheckedModeBanner: false,
     );
   }

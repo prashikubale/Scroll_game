@@ -34,6 +34,28 @@ enum ExperienceType {
   snake,
   ticTacToe,
   pong, 
+
+  // Anti-Gravity Brain Teasers
+  surfaceParadox,
+  untethered,
+  orbitalVoid,
+
+  // Advanced Anti-Gravity
+  driftProtocol,
+  axisShift,
+  relativeObserver,
+  anchorPoint,
+  causalityEcho,
+  voidMirror,
+
+  // Cognitive Teasers
+  sympatheticResonance,
+  voidStare,
+  anticipatoryShadow,
+  invertedFriction,
+  chromaticSilence,
+  metaDecay,
+  observerEffect,
 }
 
 class ExperienceEntity extends Equatable {

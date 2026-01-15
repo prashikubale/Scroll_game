@@ -101,55 +101,64 @@ class SimonSaysWidget extends StatelessWidget {
     return AnimatedBuilder(
       animation: controller,
       builder: (context, child) {
+
         return Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [Colors.grey.shade900, Colors.black],
             ),
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Round: ${controller.score + 1}',
-                style: const TextStyle(fontSize: 32, color: Colors.white, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 40),
-              GridView.builder(
-                shrinkWrap: true,
-                padding: const EdgeInsets.all(40),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 20,
-                  mainAxisSpacing: 20,
-                ),
-                itemCount: 4,
-                itemBuilder: (context, index) {
-                  final isActive = controller.currentShowIndex == index;
-                  return GestureDetector(
-                    onTap: () => controller.onColorTap(index),
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 200),
-                      decoration: BoxDecoration(
-                        color: isActive 
-                            ? controller.getColor(index)
-                            : controller.getColor(index).withOpacity(0.3),
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: isActive
-                            ? [
-                                BoxShadow(
-                                  color: controller.getColor(index).withOpacity(0.6),
-                                  blurRadius: 30,
-                                  spreadRadius: 10,
-                                ),
-                              ]
-                            : null,
-                      ),
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: SizedBox(
+              width: 400, // Constraint width to ensure layout consistency
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Round: ${controller.score + 1}',
+                    style: const TextStyle(fontSize: 32, color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 20),
+                  GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    padding: const EdgeInsets.all(20), // Reduced padding
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 20,
+                      mainAxisSpacing: 20,
                     ),
-                  );
-                },
+                    itemCount: 4,
+                    itemBuilder: (context, index) {
+                      final isActive = controller.currentShowIndex == index;
+                      return GestureDetector(
+                        onTap: () => controller.onColorTap(index),
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 200),
+                          height: 150, // Explicit height
+                          decoration: BoxDecoration(
+                            color: isActive 
+                                ? controller.getColor(index)
+                                : controller.getColor(index).withOpacity(0.3),
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: isActive
+                                ? [
+                                    BoxShadow(
+                                      color: controller.getColor(index).withOpacity(0.6),
+                                      blurRadius: 30,
+                                      spreadRadius: 10,
+                                    ),
+                                  ]
+                                : null,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         );
       },

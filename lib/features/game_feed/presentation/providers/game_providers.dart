@@ -6,6 +6,9 @@ import '../../../../injection_container.dart';
 import '../../domain/entities/game_entity.dart';
 import '../../domain/usecases/get_games_feed.dart';
 import '../../domain/usecases/save_game_score.dart';
+import '../../domain/usecases/get_game_sessions.dart';
+import '../../domain/usecases/save_game_session.dart';
+import '../../domain/entities/game_session.dart';
 import '../../../../core/usecases/usecase.dart';
 
 // State for the list of games
@@ -20,6 +23,16 @@ final gamesFeedProvider = FutureProvider<List<GameEntity>>((ref) async {
 
 // UseCase provider for saving scores (can be used directly or via a notifier)
 final saveScoreUseCaseProvider = Provider<SaveGameScore>((ref) => sl<SaveGameScore>());
+final saveSessionUseCaseProvider = Provider<SaveGameSession>((ref) => sl<SaveGameSession>());
+
+final gameSessionsProvider = FutureProvider<List<GameSession>>((ref) async {
+  final getSessions = sl<GetGameSessions>();
+  final result = await getSessions(NoParams());
+  return result.fold(
+    (failure) => throw _mapFailureToMessage(failure),
+    (sessions) => sessions,
+  );
+});
 
 String _mapFailureToMessage(Failure failure) {
   switch (failure.runtimeType) {

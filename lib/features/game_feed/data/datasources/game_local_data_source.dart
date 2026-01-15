@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../models/game_session_model.dart';
 import '../../domain/entities/game_entity.dart';
 import '../../../../core/errors/failures.dart';
 
@@ -9,6 +10,10 @@ abstract class GameLocalDataSource {
   // Deprecated methods kept for interface compliance if needed somewhere else temporarily
   Future<void> saveScore(String gameId, int score);
   Future<int> getHighScore(String gameId);
+  
+  // New Session Methods
+  Future<void> saveGameSession(GameSessionModel session);
+  Future<List<GameSessionModel>> getGameSessions();
 }
 
 const String kGameScoresKey = 'GAME_SCORES';
@@ -17,6 +22,8 @@ class GameLocalDataSourceImpl implements GameLocalDataSource {
   final SharedPreferences sharedPreferences;
 
   GameLocalDataSourceImpl({required this.sharedPreferences});
+
+  static const String kGameSessionsKey = 'GAME_SESSIONS_HISTORY';
 
   @override
   Future<List<ExperienceEntity>> getGames() async {
@@ -192,7 +199,7 @@ class GameLocalDataSourceImpl implements GameLocalDataSource {
       const ExperienceEntity(
         id: 'game_catch',
         name: 'Catch It',
-        description: 'Catch falling items.',
+        description: 'Goal: Catch falling items.\nControls: Drag basket.\nTip: Avoid red items.',
         type: ExperienceType.catchGame,
         assetPath: '',
       ),
@@ -210,6 +217,120 @@ class GameLocalDataSourceImpl implements GameLocalDataSource {
         type: ExperienceType.numberPuzzle,
         assetPath: '',
       ),
+       const ExperienceEntity(
+        id: 'game_surface_paradox',
+        name: 'The Surface Paradox',
+        description: 'Goal: Navigate the ball.\nControls: Touch ANYWHERE to pull gravity to that point.\nTip: Think of your finger as a magnet.',
+        type: ExperienceType.surfaceParadox,
+        assetPath: '',
+      ),
+       const ExperienceEntity(
+        id: 'game_untethered',
+        name: 'The Untethered',
+        description: 'Goal: Collect orbs.\nControls: Tilt phone (if supported) or drag to apply thrust.\nTip: Inertia is your enemy.',
+        type: ExperienceType.untethered,
+        assetPath: '',
+      ),
+       const ExperienceEntity(
+        id: 'game_orbital_void',
+        name: 'Orbital Void',
+        description: 'Goal: Orbit the center without crashing.\nControls: Tap to boost orbit radius.\nTip: Balance gravity vs velocity.',
+        type: ExperienceType.orbitalVoid,
+        assetPath: '',
+      ),
+      // Advanced Anti-Gravity
+       const ExperienceEntity(
+        id: 'game_drift_protocol',
+        name: 'The Drift Protocol',
+        description: 'Goal: Guide the key particle to the exit.\nControls: Tap to place gravity wells. Drag to move them.\nTip: Use wells to curve the path.',
+        type: ExperienceType.driftProtocol,
+        assetPath: '',
+      ),
+       const ExperienceEntity(
+        id: 'game_axis_shift',
+        name: 'Axis Shift',
+        description: 'Goal: Escape the maze.\nControls: Double Tap to rotate gravity 90°.\nTip: You fall in the direction of the new "Down".',
+        type: ExperienceType.axisShift,
+        assetPath: '',
+      ),
+       const ExperienceEntity(
+        id: 'game_relative_observer',
+        name: 'The Relative Observer',
+        description: 'Goal: Dock with the station.\nControls: Swipe to move the UNIVERSE, not the ship.\nTip: High friction means you stop instantly.',
+        type: ExperienceType.relativeObserver,
+        assetPath: '',
+      ),
+       const ExperienceEntity(
+        id: 'game_anchor_point',
+        name: 'Anchor Point',
+        description: 'Goal: Swing to the target.\nControls: Long press on nodes to tether. Release to launch.\nTip: Use momentum to swing further.',
+        type: ExperienceType.anchorPoint,
+        assetPath: '',
+      ),
+       const ExperienceEntity(
+        id: 'game_causality_echo',
+        name: 'Causality Echo',
+        description: 'Goal: Hit the target.\nControls: Tap to move... but 1.5 seconds later.\nTip: Plan your moves ahead.',
+        type: ExperienceType.causalityEcho,
+        assetPath: '',
+      ),
+       const ExperienceEntity(
+        id: 'game_void_mirror',
+        name: 'The Void Mirror',
+        description: 'Goal: Survive both worlds.\nControls: Tap to jump. Controls BOTH characters.\nTip: Watch the gaps in both timelines.',
+        type: ExperienceType.voidMirror,
+        assetPath: '',
+      ),
+      // Cognitive Teasers
+       const ExperienceEntity(
+        id: 'teaser_sympathetic',
+        name: 'Sympathetic Resonance',
+        description: 'Experiment: Calm the chaos.\nAction: Hold the static line to soothe the vibrating one.',
+        type: ExperienceType.sympatheticResonance,
+        assetPath: '',
+      ),
+       const ExperienceEntity(
+        id: 'teaser_void_stare',
+        name: 'The Void Stare',
+        description: 'Experiment: Do NOT observe.\nAction: Stop touching the screen. Let it open.',
+        type: ExperienceType.voidStare,
+        assetPath: '',
+      ),
+       const ExperienceEntity(
+        id: 'teaser_shadow',
+        name: 'Anticipatory Shadow',
+        description: 'Experiment: Catch the loom.\nAction: Tap exactly when the shadow fills the circle.',
+        type: ExperienceType.anticipatoryShadow,
+        assetPath: '',
+      ),
+       const ExperienceEntity(
+        id: 'teaser_friction',
+        name: 'Inverted Friction',
+        description: 'Experiment: Generate Heat.\nAction: Swipe rapidly to create "drag" and suspend the orb.',
+        type: ExperienceType.invertedFriction,
+        assetPath: '',
+      ),
+       const ExperienceEntity(
+        id: 'teaser_silence',
+        name: 'Chromatic Silence',
+        description: 'Experiment: Find Stability.\nAction: Hold screen when the "Silent Color" appears.',
+        type: ExperienceType.chromaticSilence,
+        assetPath: '',
+      ),
+       const ExperienceEntity(
+        id: 'teaser_decay',
+        name: 'Meta-Decay',
+        description: 'Experiment: System Clean.\nAction: Scrub/Swipe furiously to clean the interface.',
+        type: ExperienceType.metaDecay,
+        assetPath: '',
+      ),
+       const ExperienceEntity(
+        id: 'teaser_observer',
+        name: 'Observer Effect',
+        description: 'Experiment: Collapse the Wave.\nAction: Touch to observe (Solid). Release to wave.',
+        type: ExperienceType.observerEffect,
+        assetPath: '',
+      ),
     ];
 
     // GENERATE FEED: NO DUPLICATES, JUST RANDOMIZED (12 Unique Items)
@@ -225,11 +346,47 @@ class GameLocalDataSourceImpl implements GameLocalDataSource {
 
   @override
   Future<int> getHighScore(String gameId) async {
-    return 0; // Scores removed
+    final sessions = await getGameSessions();
+    final gameSessions = sessions.where((s) => s.gameId == gameId).toList();
+    if (gameSessions.isEmpty) return 0;
+    
+    // Assuming higher is better. If some games are timed (lower better), logic might need adjustment.
+    // For now we just return max 'score'.
+    return gameSessions.map((s) => s.score).reduce(max);
   }
 
   @override
   Future<void> saveScore(String gameId, int score) async {
-    // No-op
+    final session = GameSessionModel(
+      gameId: gameId,
+      score: score,
+      durationSeconds: 0, // Legacy support
+      timestamp: DateTime.now(),
+    );
+    await saveGameSession(session);
+  }
+
+  Future<void> saveGameSession(GameSessionModel session) async {
+    final List<GameSessionModel> currentSessions = await _getStoredSessions();
+    currentSessions.add(session);
+    
+    final List<Map<String, dynamic>> jsonList = currentSessions.map((s) => s.toJson()).toList();
+    await sharedPreferences.setString(kGameSessionsKey, json.encode(jsonList));
+  }
+
+  Future<List<GameSessionModel>> getGameSessions() async {
+    return _getStoredSessions();
+  }
+
+  Future<List<GameSessionModel>> _getStoredSessions() async {
+    final jsonString = sharedPreferences.getString(kGameSessionsKey);
+    if (jsonString == null) return [];
+    
+    try {
+      final List<dynamic> jsonList = json.decode(jsonString);
+      return jsonList.map((json) => GameSessionModel.fromJson(json)).toList();
+    } catch (e) {
+      return [];
+    }
   }
 }

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import '../../core/game/mini_game.dart';
 
@@ -12,6 +13,10 @@ class TicTacToeController extends ChangeNotifier implements MiniGame {
   List<String> get board => _board;
   bool get isXTurn => _isXTurn;
   String get winner => _winner;
+  
+  // AI is always 'O'
+  final String _player = 'X';
+  final String _aiPlayer = 'O';
 
   @override
   void start() {
@@ -27,24 +32,99 @@ class TicTacToeController extends ChangeNotifier implements MiniGame {
     notifyListeners();
   }
 
-  void move(int index) {
-    if (!_isPlaying || _board[index].isNotEmpty || _winner.isNotEmpty) return;
+  Future<void> move(int index) async {
+    // Player Move
+    if (!_isPlaying || _board[index].isNotEmpty || _winner.isNotEmpty || !_isXTurn) return;
     
-    _board[index] = _isXTurn ? 'X' : 'O';
-    _isXTurn = !_isXTurn;
-    
-    checkWinner();
-    
-    if (_winner.isEmpty && !_board.contains('')) {
-      // Draw
-      _winner = 'Draw';
-      _isPlaying = false;
-    }
-    
+    _board[index] = _player;
+    _isXTurn = false;
     notifyListeners();
+    
+    if (_checkEndGame()) return;
+    
+    // AI Turn with small delay for realism
+    await Future.delayed(const Duration(milliseconds: 500));
+    if (!_isPlaying) return; // In case reset happened during delay
+    
+    _makeAiMove();
+    _isXTurn = true;
+    notifyListeners();
+    
+    _checkEndGame();
   }
   
-  void checkWinner() {
+  bool _checkEndGame() {
+    String? win = _checkWinnerInternal(_board);
+    if (win != null) {
+      _winner = win;
+      if (_winner == _player) _score++;
+      _isPlaying = false;
+      notifyListeners();
+      return true;
+    }
+    
+    if (!_board.contains('')) {
+      _winner = 'Draw';
+      _isPlaying = false;
+      notifyListeners();
+      return true;
+    }
+    return false;
+  }
+  
+  void _makeAiMove() {
+    int bestScore = -1000;
+    int bestMove = -1;
+    
+    for (int i = 0; i < 9; i++) {
+      if (_board[i] == '') {
+        _board[i] = _aiPlayer;
+        int score = _minimax(_board, 0, false);
+        _board[i] = '';
+        if (score > bestScore) {
+          bestScore = score;
+          bestMove = i;
+        }
+      }
+    }
+    
+    if (bestMove != -1) {
+      _board[bestMove] = _aiPlayer;
+    }
+  }
+  
+  int _minimax(List<String> board, int depth, bool isMaximizing) {
+    String? result = _checkWinnerInternal(board);
+    if (result == _aiPlayer) return 10 - depth;
+    if (result == _player) return depth - 10;
+    if (!board.contains('')) return 0;
+    
+    if (isMaximizing) {
+      int bestScore = -1000;
+      for (int i = 0; i < 9; i++) {
+        if (board[i] == '') {
+          board[i] = _aiPlayer;
+          int score = _minimax(board, depth + 1, false);
+          board[i] = ''; // Undo
+          bestScore = max(score, bestScore);
+        }
+      }
+      return bestScore;
+    } else {
+      int bestScore = 1000;
+      for (int i = 0; i < 9; i++) {
+        if (board[i] == '') {
+          board[i] = _player;
+          int score = _minimax(board, depth + 1, true);
+          board[i] = ''; // Undo
+          bestScore = min(score, bestScore);
+        }
+      }
+      return bestScore;
+    }
+  }
+  
+  String? _checkWinnerInternal(List<String> board) {
     const lines = [
       [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
       [0, 3, 6], [1, 4, 7], [2, 5, 8], // Cols
@@ -52,21 +132,17 @@ class TicTacToeController extends ChangeNotifier implements MiniGame {
     ];
     
     for (var line in lines) {
-      if (_board[line[0]].isNotEmpty &&
-          _board[line[0]] == _board[line[1]] &&
-          _board[line[0]] == _board[line[2]]) {
-        _winner = _board[line[0]];
-        if (_winner == 'X') _score++; // Assuming Player is X
-        _isPlaying = false;
-        return;
+      if (board[line[0]].isNotEmpty &&
+          board[line[0]] == board[line[1]] &&
+          board[line[0]] == board[line[2]]) {
+        return board[line[0]];
       }
     }
+    return null;
   }
 
   @override
-  void pause() {
-    // No-op for turn based
-  }
+  void pause() {}
 
   @override
   void reset() {
@@ -180,3 +256,4 @@ class TicTacToeWidget extends StatelessWidget {
     );
   }
 }
+

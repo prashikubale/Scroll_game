@@ -16,6 +16,22 @@ import '../../games/catch_game/catch_game.dart';
 import '../../games/snake_game/snake_game.dart';
 import '../../games/tic_tac_toe_game/tic_tac_toe_game.dart';
 import '../../games/pong_game/pong_game.dart';
+import '../../games/surface_paradox_game/surface_paradox_game.dart';
+import '../../games/untethered_game/untethered_game.dart';
+import '../../games/orbital_void_game/orbital_void_game.dart';
+import '../../games/drift_protocol_game/drift_protocol_game.dart';
+import '../../games/axis_shift_game/axis_shift_game.dart';
+import '../../games/relative_observer_game/relative_observer_game.dart';
+import '../../games/anchor_point_game/anchor_point_game.dart';
+import '../../games/causality_echo_game/causality_echo_game.dart';
+import '../../games/void_mirror_game/void_mirror_game.dart';
+import '../../games/cognitive_teasers/sympathetic_resonance.dart';
+import '../../games/cognitive_teasers/void_stare.dart';
+import '../../games/cognitive_teasers/anticipatory_shadow.dart';
+import '../../games/cognitive_teasers/inverted_friction.dart';
+import '../../games/cognitive_teasers/chromatic_silence.dart';
+import '../../games/cognitive_teasers/meta_decay.dart';
+import '../../games/cognitive_teasers/observer_effect.dart';
 
 import '../../interactions/interaction_widgets.dart';
 import '../../experiences/gravity_orb.dart';
@@ -165,6 +181,28 @@ abstract class GameFactory {
       case ExperienceType.snake: return _createSnakeGame();
       case ExperienceType.pong: return _createPongGame();
 
+      // --- ANTI-GRAVITY GAMES ---
+      case ExperienceType.surfaceParadox: return _createSurfaceParadox();
+      case ExperienceType.untethered: return _createUntethered();
+      case ExperienceType.orbitalVoid: return _createOrbitalVoid();
+      
+      // --- ADVANCED ANTI-GRAVITY ---
+      case ExperienceType.driftProtocol: return _createDriftProtocol();
+      case ExperienceType.axisShift: return _createAxisShift();
+      case ExperienceType.relativeObserver: return _createRelativeObserver();
+      case ExperienceType.anchorPoint: return _createAnchorPoint();
+      case ExperienceType.causalityEcho: return _createCausalityEcho();
+      case ExperienceType.voidMirror: return _createVoidMirror();
+
+      // --- COGNITIVE TEASERS ---
+      case ExperienceType.sympatheticResonance: return _createSympatheticResonance();
+      case ExperienceType.voidStare: return _createVoidStare();
+      case ExperienceType.anticipatoryShadow: return _createAnticipatoryShadow();
+      case ExperienceType.invertedFriction: return _createInvertedFriction();
+      case ExperienceType.chromaticSilence: return _createChromaticSilence();
+      case ExperienceType.metaDecay: return _createMetaDecay();
+      case ExperienceType.observerEffect: return _createObserverEffect();
+
       // --- INTERACTIONS ---
       case ExperienceType.tapSurprise: return _createTapSurprise();
       case ExperienceType.holdReveal: return _createHoldReveal();
@@ -240,6 +278,76 @@ abstract class GameFactory {
   static GameInstances _createPongGame() {
     final ctrl = PongController();
     return GameInstances(PongWidget(controller: ctrl), ctrl);
+  }
+
+  // Anti-Gravity Factories
+  static GameInstances _createSurfaceParadox() {
+    final ctrl = SurfaceParadoxGameController();
+    return GameInstances(SurfaceParadoxGameWidget(controller: ctrl), ctrl);
+  }
+  static GameInstances _createUntethered() {
+    final ctrl = UntetheredGameController();
+    return GameInstances(UntetheredGameWidget(controller: ctrl), ctrl);
+  }
+  static GameInstances _createOrbitalVoid() {
+    final ctrl = OrbitalVoidGameController();
+    return GameInstances(OrbitalVoidGameWidget(controller: ctrl), ctrl);
+  }
+  
+  // Advanced Anti-Gravity Factories
+  static GameInstances _createDriftProtocol() {
+    final ctrl = DriftProtocolGameController();
+    return GameInstances(DriftProtocolGameWidget(controller: ctrl), ctrl);
+  }
+  static GameInstances _createAxisShift() {
+    final ctrl = AxisShiftGameController();
+    return GameInstances(AxisShiftGameWidget(controller: ctrl), ctrl);
+  }
+  static GameInstances _createRelativeObserver() {
+    final ctrl = RelativeObserverGameController();
+    return GameInstances(RelativeObserverGameWidget(controller: ctrl), ctrl);
+  }
+  static GameInstances _createAnchorPoint() {
+    final ctrl = AnchorPointGameController();
+    return GameInstances(AnchorPointGameWidget(controller: ctrl), ctrl);
+  }
+  static GameInstances _createCausalityEcho() {
+    final ctrl = CausalityEchoGameController();
+    return GameInstances(CausalityEchoGameWidget(controller: ctrl), ctrl);
+  }
+  static GameInstances _createVoidMirror() {
+    final ctrl = VoidMirrorGameController();
+    return GameInstances(VoidMirrorGameWidget(controller: ctrl), ctrl);
+  }
+  
+  // Cognitive Teasers
+  static GameInstances _createSympatheticResonance() {
+    final ctrl = SympatheticResonanceController();
+    return GameInstances(SympatheticResonanceWidget(controller: ctrl), ctrl);
+  }
+  static GameInstances _createVoidStare() {
+    final ctrl = VoidStareController();
+    return GameInstances(VoidStareWidget(controller: ctrl), ctrl);
+  }
+  static GameInstances _createAnticipatoryShadow() {
+    final ctrl = AnticipatoryShadowController();
+    return GameInstances(AnticipatoryShadowWidget(controller: ctrl), ctrl);
+  }
+  static GameInstances _createInvertedFriction() {
+    final ctrl = InvertedFrictionController();
+    return GameInstances(InvertedFrictionWidget(controller: ctrl), ctrl);
+  }
+  static GameInstances _createChromaticSilence() {
+    final ctrl = ChromaticSilenceController();
+    return GameInstances(ChromaticSilenceWidget(controller: ctrl), ctrl);
+  }
+  static GameInstances _createMetaDecay() {
+    final ctrl = MetaDecayController();
+    return GameInstances(MetaDecayWidget(controller: ctrl), ctrl);
+  }
+  static GameInstances _createObserverEffect() {
+    final ctrl = ObserverEffectController();
+    return GameInstances(ObserverEffectWidget(controller: ctrl), ctrl);
   }
 
   // Interaction Factories

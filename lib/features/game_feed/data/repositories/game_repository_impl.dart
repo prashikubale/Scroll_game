@@ -2,8 +2,10 @@
 import 'package:dartz/dartz.dart';
 import '../../../../core/errors/failures.dart';
 import '../../domain/entities/game_entity.dart';
+import '../../domain/entities/game_session.dart';
 import '../../domain/repositories/game_repository.dart';
 import '../datasources/game_local_data_source.dart';
+import '../models/game_session_model.dart';
 
 class GameRepositoryImpl implements GameRepository {
   final GameLocalDataSource localDataSource;
@@ -41,6 +43,27 @@ class GameRepositoryImpl implements GameRepository {
       return const Right(false);
     } catch (e) {
       return const Left(CacheFailure('Failed to save score'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<GameSession>>> getSessions() async {
+    try {
+      final sessions = await localDataSource.getGameSessions();
+      return Right(sessions);
+    } catch (e) {
+      return const Left(CacheFailure('Failed to load sessions'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> saveSession(GameSession session) async {
+    try {
+      final model = GameSessionModel.fromEntity(session);
+      await localDataSource.saveGameSession(model);
+      return const Right(null);
+    } catch (e) {
+      return const Left(CacheFailure('Failed to save session'));
     }
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/game_providers.dart';
 import 'game_page.dart';
 import '../widgets/game_page_indicator.dart';
+import 'profile_page.dart';
 
 class GameFeedPage extends ConsumerWidget {
   const GameFeedPage({super.key});
