@@ -1,0 +1,22 @@
+{
+    "version": 2,
+    "builds": [
+        {
+            "src": "package.json",
+            "use": "@vercel/static-build",
+            "config": {
+                "distDir": "build/web"
+            }
+        }
+    ],
+    "routes": [
+        {
+            "src": "/[^.]+",
+            "dest": "/",
+            "status": 200
+        }
+    ],
+    "buildCommand": "/bin/bash tool/build.sh",
+    "outputDirectory": "build/web",
+    "framework": null
+}
