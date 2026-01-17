@@ -163,75 +163,94 @@ class StackBlock3D extends PositionComponent {
   void render(Canvas canvas) {
     // EXACT 3D ISOMETRIC LIKE REFERENCE IMAGE
     
-    // Shadow (soft, offset)
-    final shadowPaint = Paint()
-      ..color = Colors.black.withOpacity(0.25)
-      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 8);
+    // EXACT 3D ISOMETRIC - ENHANCED AESTHETICS
     
-    final shadowRect = Rect.fromLTWH(6, 6, size.x, size.y);
+    // Shadow (Rich Drop Shadow)
+    final shadowPaint = Paint()
+      ..color = Colors.black.withOpacity(0.4)
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 12);
+    
+    final shadowRect = Rect.fromLTWH(8, 12, size.x, size.y);
     canvas.drawRRect(
-      RRect.fromRectAndRadius(shadowRect, const Radius.circular(3)),
+      RRect.fromRectAndRadius(shadowRect, const Radius.circular(4)),
       shadowPaint,
     );
     
-    // MAIN FRONT FACE (bright yellow)
-    final frontPaint = Paint()
-      ..color = color
-      ..style = PaintingStyle.fill;
+    // FRONT FACE (Vibrant Gradient)
+    final frontGradient = LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [
+        color,
+        Color.lerp(color, Colors.black, 0.2)!, 
+      ],
+    );
     
     final frontRect = Rect.fromLTWH(0, 0, size.x, size.y);
+    final frontPaint = Paint()
+      ..shader = frontGradient.createShader(frontRect)
+      ..style = PaintingStyle.fill;
+
     canvas.drawRRect(
-      RRect.fromRectAndRadius(frontRect, const Radius.circular(3)),
+      RRect.fromRectAndRadius(frontRect, const Radius.circular(4)),
       frontPaint,
     );
     
-    // TOP FACE (isometric, lighter)
+    // TOP FACE (Light Source)
     final topPaint = Paint()
-      ..color = Color.lerp(color, Colors.white, 0.15)!;
+      ..color = Color.lerp(color, Colors.white, 0.4)!; // More highlight
     
     final topPath = Path()
       ..moveTo(0, 0)
       ..lineTo(size.x, 0)
-      ..lineTo(size.x - 12, -10)
-      ..lineTo(-12, -10)
+      ..lineTo(size.x - 12, -12) // Slightly sharper angle
+      ..lineTo(-12, -12)
       ..close();
     
     canvas.drawPath(topPath, topPaint);
     
-    // RIGHT SIDE FACE (dark, for depth - EXACTLY like reference)
-    final sidePaint = Paint()
-      ..color = darkColor;
+    // RIGHT SIDE FACE (Depth - Darker Gradient)
+    final sideGradient = LinearGradient(
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+      colors: [
+        darkColor,
+        Color.lerp(darkColor, Colors.black, 0.4)!,
+      ],
+    );
     
     final sidePath = Path()
       ..moveTo(size.x, 0)
       ..lineTo(size.x, size.y)
-      ..lineTo(size.x + 10, size.y - 10)
-      ..lineTo(size.x + 10, -10)
+      ..lineTo(size.x + 12, size.y - 12)
+      ..lineTo(size.x + 12, -12)
       ..close();
+      
+    final sideRect = sidePath.getBounds();
+    final sidePaint = Paint()
+      ..shader = sideGradient.createShader(sideRect);
     
     canvas.drawPath(sidePath, sidePaint);
     
-    // Subtle highlight on front face
+    // GLOSS HIGHLIGHT (Glassy feel)
     final highlightPaint = Paint()
-      ..color = Colors.white.withOpacity(0.15);
+      ..style = PaintingStyle.fill
+      ..shader = LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [
+          Colors.white.withOpacity(0.4),
+          Colors.white.withOpacity(0.0),
+        ],
+        stops: const [0.0, 0.5],
+      ).createShader(frontRect);
     
     canvas.drawRRect(
       RRect.fromRectAndRadius(
-        Rect.fromLTWH(8, 6, size.x - 16, size.y / 3),
-        const Radius.circular(2),
+        Rect.fromLTWH(0, 0, size.x, size.y),
+        const Radius.circular(4),
       ),
       highlightPaint,
-    );
-    
-    // Edge definition
-    final edgePaint = Paint()
-      ..color = Colors.white.withOpacity(0.1)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 0.5;
-    
-    canvas.drawRRect(
-      RRect.fromRectAndRadius(frontRect, const Radius.circular(3)),
-      edgePaint,
     );
   }
 }
@@ -270,59 +289,93 @@ class MovingBlock3D extends PositionComponent {
 
   @override
   void render(Canvas canvas) {
-    // Same 3D rendering as StackBlock3D
-    final color = const Color(0xFFE8D21D);
-    final darkColor = const Color(0xFF6B6B3D);
+    // EXACT 3D ISOMETRIC - ENHANCED AESTHETICS (Same as StackBlock3D)
     
+    // Shadow
     final shadowPaint = Paint()
-      ..color = Colors.black.withOpacity(0.25)
-      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 8);
+      ..color = Colors.black.withOpacity(0.4)
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 12);
     
     canvas.drawRRect(
       RRect.fromRectAndRadius(
-        Rect.fromLTWH(6, 6, size.x, size.y),
-        const Radius.circular(3),
+        Rect.fromLTWH(8, 12, size.x, size.y),
+        const Radius.circular(4),
       ),
       shadowPaint,
     );
     
-    final frontPaint = Paint()..color = color;
+    final color = const Color(0xFFE8D21D);
+    final darkColor = const Color(0xFF6B6B3D);
+
+    // Front Gradient
+    final frontGradient = LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [
+        color,
+        Color.lerp(color, Colors.black, 0.2)!, 
+      ],
+    );
+    
     final frontRect = Rect.fromLTWH(0, 0, size.x, size.y);
+    final frontPaint = Paint()..shader = frontGradient.createShader(frontRect);
+
     canvas.drawRRect(
-      RRect.fromRectAndRadius(frontRect, const Radius.circular(3)),
+      RRect.fromRectAndRadius(frontRect, const Radius.circular(4)),
       frontPaint,
     );
     
+    // Top Face
     final topPaint = Paint()
-      ..color = Color.lerp(color, Colors.white, 0.15)!;
+      ..color = Color.lerp(color, Colors.white, 0.4)!;
     
     final topPath = Path()
       ..moveTo(0, 0)
       ..lineTo(size.x, 0)
-      ..lineTo(size.x - 12, -10)
-      ..lineTo(-12, -10)
+      ..lineTo(size.x - 12, -12)
+      ..lineTo(-12, -12)
       ..close();
     
     canvas.drawPath(topPath, topPaint);
     
-    final sidePaint = Paint()..color = darkColor;
+    // Side Gradient
+    final sideGradient = LinearGradient(
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+      colors: [
+        darkColor,
+        Color.lerp(darkColor, Colors.black, 0.4)!,
+      ],
+    );
     
     final sidePath = Path()
       ..moveTo(size.x, 0)
       ..lineTo(size.x, size.y)
-      ..lineTo(size.x + 10, size.y - 10)
-      ..lineTo(size.x + 10, -10)
+      ..lineTo(size.x + 12, size.y - 12)
+      ..lineTo(size.x + 12, -12)
       ..close();
+    
+    final sideRect = sidePath.getBounds();
+    final sidePaint = Paint()..shader = sideGradient.createShader(sideRect);
     
     canvas.drawPath(sidePath, sidePaint);
     
+    // Highlight
     final highlightPaint = Paint()
-      ..color = Colors.white.withOpacity(0.2);
+      ..shader = LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [
+          Colors.white.withOpacity(0.4),
+          Colors.white.withOpacity(0.0),
+        ],
+        stops: const [0.0, 0.5],
+      ).createShader(frontRect);
     
     canvas.drawRRect(
       RRect.fromRectAndRadius(
-        Rect.fromLTWH(8, 6, size.x - 16, size.y / 3),
-        const Radius.circular(2),
+        Rect.fromLTWH(0, 0, size.x, size.y),
+        const Radius.circular(4),
       ),
       highlightPaint,
     );

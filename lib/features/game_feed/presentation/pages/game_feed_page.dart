@@ -27,6 +27,8 @@ class GameFeedPage extends ConsumerWidget {
              });
           }
 
+          final isScrollLocked = ref.watch(scrollLockProvider);
+
           return Stack(
             children: [
               PageView.builder(
@@ -36,6 +38,7 @@ class GameFeedPage extends ConsumerWidget {
                   // as we want to sync with the (potentially corrected) currentIndex.
                   initialPage: currentIndex >= games.length ? 0 : currentIndex,
                 ),
+                physics: isScrollLocked ? const NeverScrollableScrollPhysics() : const AlwaysScrollableScrollPhysics(),
                 scrollDirection: Axis.vertical,
                 itemCount: games.length,
                 onPageChanged: (index) {

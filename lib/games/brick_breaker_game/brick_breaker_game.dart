@@ -11,13 +11,19 @@ class BrickBreakerController extends ChangeNotifier implements MiniGame {
   double _ballY = 0.7;
   double _ballVelX = 0.02;
   double _ballVelY = -0.02;
-  List<bool> _bricks = List.filled(30, true);
+  
+  // Dynamic Grid
+  int _cols = 6;
+  int _rows = 5;
+  List<bool> _bricks = [];
   Timer? _timer;
 
   double get paddleX => _paddleX;
   double get ballX => _ballX;
   double get ballY => _ballY;
   List<bool> get bricks => _bricks;
+  int get cols => _cols;
+  int get rows => _rows;
 
   void movePaddle(double delta) {
     if (!_isPlaying) return;
@@ -49,14 +55,20 @@ class BrickBreakerController extends ChangeNotifier implements MiniGame {
     }
 
     // Brick collision
+    // Calculate dynamic brick size
+    final brickWidth = 0.96 / _cols; // 0.96 to leave small margin
+    final brickHeight = 0.05; // Fixed height ratio or could be dynamic
+    
     for (int i = 0; i < _bricks.length; i++) {
       if (!_bricks[i]) continue;
-      final row = i ~/ 6;
-      final col = i % 6;
-      final brickX = col * 0.16 + 0.08;
-      final brickY = row * 0.06 + 0.1;
+      final row = i ~/ _cols;
+      final col = i % _cols;
       
-      if ((_ballX - brickX).abs() < 0.08 && (_ballY - brickY).abs() < 0.03) {
+      final brickX = col * brickWidth + 0.02; 
+      final brickY = row * (brickHeight + 0.01) + 0.1;
+      
+      if ((_ballX - (brickX + brickWidth/2)).abs() < brickWidth/2 + 0.01 && 
+          (_ballY - (brickY + brickHeight/2)).abs() < brickHeight/2 + 0.01) {
         _bricks[i] = false;
         _ballVelY *= -1;
         _score += 10;
@@ -86,7 +98,15 @@ class BrickBreakerController extends ChangeNotifier implements MiniGame {
     _ballY = 0.7;
     _ballVelX = 0.02;
     _ballVelY = -0.02;
-    _bricks = List.filled(30, true);
+    
+    // RANDOMIZE GRID DENSITY (Number of Bricks)
+    final random = Random();
+    // Randomize columns between 5 and 10
+    _cols = 5 + random.nextInt(6); 
+    // Randomize rows between 5 and 20 to get high brick counts (up to 200)
+    _rows = 5 + random.nextInt(16);
+    
+    _bricks = List.filled(_cols * _rows, true);
     start();
   }
 
@@ -140,13 +160,19 @@ class BrickBreakerPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    final cols = controller.cols;
+    final brickWidth = (size.width * 0.96) / cols;
+    final brickHeight = size.height * 0.05;
+    final margin = size.width * 0.02;
+
     // Draw bricks
     for (int i = 0; i < controller.bricks.length; i++) {
       if (!controller.bricks[i]) continue;
-      final row = i ~/ 6;
-      final col = i % 6;
-      final x = col * size.width * 0.16 + size.width * 0.02;
-      final y = row * size.height * 0.06 + size.height * 0.1;
+      final row = i ~/ cols;
+      final col = i % cols;
+      
+      final x = margin + col * brickWidth;
+      final y = size.height * 0.1 + row * (brickHeight + size.height * 0.01);
       
       final paint = Paint()
         ..color = Colors.primaries[i % Colors.primaries.length]
@@ -154,8 +180,8 @@ class BrickBreakerPainter extends CustomPainter {
       
       canvas.drawRRect(
         RRect.fromRectAndRadius(
-          Rect.fromLTWH(x, y, size.width * 0.14, size.height * 0.05),
-          const Radius.circular(8),
+          Rect.fromLTWH(x + 2, y, brickWidth - 4, brickHeight),
+          const Radius.circular(4),
         ),
         paint,
       );

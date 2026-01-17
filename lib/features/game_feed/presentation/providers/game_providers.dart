@@ -54,6 +54,22 @@ class CurrentGameIndexNotifier extends Notifier<int> {
   void setIndex(int index) => state = index;
 }
 
+
 final currentGameIndexProvider = NotifierProvider<CurrentGameIndexNotifier, int>(
   () => CurrentGameIndexNotifier(),
 );
+
+// Lock Provider to prevent scrolling while playing
+class ScrollLockNotifier extends Notifier<bool> {
+  @override
+  bool build() => false;
+
+  void setLocked(bool value) {
+    state = value;
+  }
+}
+
+final scrollLockProvider = NotifierProvider<ScrollLockNotifier, bool>(
+  () => ScrollLockNotifier(),
+);
+

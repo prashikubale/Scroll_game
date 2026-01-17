@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/services.dart'; // Import for HapticFeedback
+import 'package:confetti/confetti.dart'; // Import Confetti
 import '../../../../core/game/game_factory.dart';
 import '../../../../core/game/mini_game.dart';
 import '../../domain/entities/game_entity.dart';
 import '../../domain/entities/game_session.dart'; 
-import '../../../../games/whack_mole_game/whack_mole_game.dart'; // Corrected Path
+import '../../../../games/whack_mole_game/whack_mole_game.dart'; 
 import '../providers/game_providers.dart';
-import '../widgets/bottom_action_bar.dart'; // New Import
-import 'profile_page.dart'; // Fixed: Import Profile Page
+import '../widgets/bottom_action_bar.dart';
+import 'profile_page.dart';
+import '../../../../core/services/sound_manager.dart'; // Import SoundManager
+import '../../../../core/widgets/particle_overlay.dart'; // Import ParticleOverlay
 
 class GamePage extends ConsumerStatefulWidget {
   final GameEntity game;
@@ -25,12 +29,17 @@ class GamePage extends ConsumerStatefulWidget {
 
 class _GamePageState extends ConsumerState<GamePage> {
   late GameInstances _gameInstance;
-  bool _isLiked = false; // Local state for like demo
+  bool _isLiked = false; 
+  late ConfettiController _confettiController; // Controller for particles
+  Color _bgTopColor = const Color(0xFF2C2C2C); // Dynamic BG state
 
   @override
   void initState() {
     super.initState();
     _gameInstance = GameFactory.create(widget.game);
+    _confettiController = ConfettiController(duration: const Duration(seconds: 1));
+    // Initialize last score to avoid false positives
+    _lastScore = _gameInstance.controller.score;
     _setupGameListener();
   }
 
@@ -42,6 +51,8 @@ class _GamePageState extends ConsumerState<GamePage> {
       _gameInstance.controller.dispose();
       _gameInstance = GameFactory.create(widget.game);
       _setupGameListener();
+      // Reset score tracking for new game
+      _lastScore = _gameInstance.controller.score;
     }
   }
   
@@ -49,6 +60,7 @@ class _GamePageState extends ConsumerState<GamePage> {
   void dispose() {
     _removeGameListener();
     _gameInstance.controller.dispose();
+    _confettiController.dispose();
     super.dispose();
   }
 
@@ -66,42 +78,59 @@ class _GamePageState extends ConsumerState<GamePage> {
     }
   }
 
-  // Track previous state to detect transitions
   bool _wasPlaying = false;
+  int _lastScore = 0;
 
   void _onGameUpdate() {
     final controller = _gameInstance.controller;
     
+    // Check for score increase to trigger effects
+    if (controller.score > _lastScore) {
+       SoundManager().playScore();
+       _pulseBackground();
+    }
+    // Always sync lastScore to handle resets/decreases correctly
+    _lastScore = controller.score;
+
     // SPECIFIC GAME ADAPTERS
-    // 1. Whack A Mole
     if (widget.game.id == 'game_whack' && controller is WhackMoleController) {
-       // Detect transition from playing to not playing (Game Over)
-       // We can check timeLeft <= 0 to distinguish "Game Over" from "Pause"
-       bool isPlaying = controller.timeLeft > 0; // Rough approximation or access private? 
-       // WhackMoleController has no veřejné getter for isPlaying.
-       // But it has timeLeft. If timeLeft == 0, it's game over.
-       
+       // Check for Game Over logic
        if (_wasPlaying && controller.timeLeft <= 0) {
+         _confettiController.play(); // Play confetti on Game Over
+         SoundManager().playGameOver();
          _saveSession(controller.score);
        }
        _wasPlaying = controller.timeLeft > 0;
     }
   }
 
+  void _pulseBackground() {
+    if (!mounted) return;
+    setState(() {
+      _bgTopColor = const Color(0xFF4A4A4A); // Lighter
+    });
+    Future.delayed(const Duration(milliseconds: 300), () {
+      if (mounted) {
+        setState(() {
+          _bgTopColor = const Color(0xFF2C2C2C); // Back to dark
+        });
+      }
+    });
+  }
+
   void _saveSession(int score) {
-    if (score <= 0) return; // Don't save empty games
+    if (score <= 0) return; 
     
     final session = GameSession(
       gameId: widget.game.id,
       score: score,
-      durationSeconds: 0, // Calculate if possible
+      durationSeconds: 0, 
       timestamp: DateTime.now(),
-      metrics: {}, // Add reaction time if available
+      metrics: {}, 
     );
     
     ref.read(saveSessionUseCaseProvider).call(session);
     
-    // Optional: Show Snack
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Score Saved: $score'), 
@@ -113,24 +142,18 @@ class _GamePageState extends ConsumerState<GamePage> {
 
   @override
   Widget build(BuildContext context) {
-    // Lifecycle management (Start/Pause based on visibility)
     final currentIndex = ref.watch(currentGameIndexProvider);
-    // isActive just means "Page is visible". _isGameActive means "User tapped to play".
     final isPageVisible = currentIndex == widget.index;
 
     ref.listen(currentGameIndexProvider, (previous, next) {
-        // Always pause and reset active state when scrolling
         if (next != widget.index) {
           _gameInstance.controller.pause();
         } else {
-           // Arrived at page. Auto-start.
            _gameInstance.controller.start();
         }
     });
 
-    // Initial start if visible
     if (isPageVisible) {
-       // Micro-delay to ensure build completion
        WidgetsBinding.instance.addPostFrameCallback((_) {
           _gameInstance.controller.start();
        });
@@ -140,102 +163,124 @@ class _GamePageState extends ConsumerState<GamePage> {
       backgroundColor: Colors.transparent, 
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+          // REDUCED PADDING to fix overflow
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
             child: Column(
               children: [
                 // Game Container
                 Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      // Minimal Dark Gradient (Neutral)
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          const Color(0xFF2C2C2C), // Soft Dark Grey
-                          const Color(0xFF1A1A1A), // Darker Grey
+                  child: ParticleOverlay( // Wrapped in Particle Overlay
+                    controller: _confettiController,
+                    child: AnimatedContainer( // Animated Container for breathing effect
+                      duration: const Duration(milliseconds: 500),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            _bgTopColor, // Dynamic Color
+                            const Color(0xFF1A1A1A), 
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(30),
+                        border: Border.all(
+                          color: Colors.white.withOpacity(0.1), 
+                          width: 1
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.4),
+                            blurRadius: 15,
+                            offset: const Offset(0, 8),
+                          ),
                         ],
                       ),
-                      borderRadius: BorderRadius.circular(30),
-                      // Clean Minimal Border
-                      border: Border.all(
-                        color: Colors.white.withOpacity(0.1), 
-                        width: 1
-                      ),
-                      // Soft Natural Shadow (No Glow)
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.4),
-                          blurRadius: 15,
-                          offset: const Offset(0, 8),
-                        ),
-                      ],
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(28),
-                      child: Stack(
-                        children: [
-                           // Game Widget
-                           Positioned.fill(
-                             child: _gameInstance.gameWidget,
-                           ),
-                           
-                           // Professional Title Header
-                           Positioned(
-                             top: 0,
-                             left: 0,
-                             right: 0,
-                             child: IgnorePointer(
-                               child: Container(
-                                 padding: const EdgeInsets.symmetric(vertical: 12),
-                                 decoration: BoxDecoration(
-                                   gradient: LinearGradient(
-                                     begin: Alignment.topCenter,
-                                     end: Alignment.bottomCenter,
-                                     colors: [
-                                       Colors.black.withOpacity(0.8),
-                                       Colors.transparent,
-                                     ],
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(28),
+                        child: Stack(
+                          children: [
+                             // Game Widget
+                             Positioned.fill(
+                               child: Listener(
+                                 onPointerDown: (_) {
+                                   ref.read(scrollLockProvider.notifier).setLocked(true);
+                                   // Optional: play tap sound on interaction? 
+                                   // Might be too frequent, depends on game.
+                                   // SoundManager().playTap(); 
+                                 },
+                                 onPointerUp: (_) {
+                                   ref.read(scrollLockProvider.notifier).setLocked(false);
+                                 },
+                                 onPointerCancel: (_) {
+                                   ref.read(scrollLockProvider.notifier).setLocked(false);
+                                 },
+                                 child: _gameInstance.gameWidget,
+                               ),
+                             ),
+                             
+                             // Professional Title Header
+                             Positioned(
+                               top: 0,
+                               left: 0,
+                               right: 0,
+                               child: IgnorePointer(
+                                 child: Container(
+                                   padding: const EdgeInsets.symmetric(vertical: 12),
+                                   decoration: BoxDecoration(
+                                     gradient: LinearGradient(
+                                       begin: Alignment.topCenter,
+                                       end: Alignment.bottomCenter,
+                                       colors: [
+                                         Colors.black.withOpacity(0.8),
+                                         Colors.transparent,
+                                       ],
+                                     ),
                                    ),
-                                 ),
-                                 child: Center(
-                                   child: Text(
-                                      widget.game.name.toUpperCase(),
-                                      style: TextStyle(
-                                        color: Colors.white.withOpacity(0.9),
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                        letterSpacing: 2.0,
-                                        fontFamily: 'monospace', // Tech/Arcade feel
-                                      ),
+                                   child: Center(
+                                     child: Text(
+                                        widget.game.name.toUpperCase(),
+                                        style: TextStyle(
+                                          color: Colors.white.withOpacity(0.9),
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600,
+                                          letterSpacing: 2.0,
+                                          fontFamily: 'monospace', 
+                                        ),
+                                     ),
                                    ),
                                  ),
                                ),
                              ),
-                           ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
                 
-                const SizedBox(height: 25),
+                // REDUCED SPACING to fix overflow
+                const SizedBox(height: 12),
 
-                // Action Bar (Simulating the wireframe's bottom layout)
+                // Action Bar
                 BottomActionBar(
                   isLiked: _isLiked,
                   onLike: () {
+                    SoundManager().playTap(); // Sound on Action
+                    HapticFeedback.lightImpact();
                     setState(() => _isLiked = !_isLiked);
                   },
                   onReplay: () {
+                    SoundManager().playTap();
                     _gameInstance.controller.reset();
                   },
                   onProfile: () {
+                     SoundManager().playTap();
                      Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => const ProfilePage()),
                     );
                   },
                   onShare: () {
+                    SoundManager().playTap();
                     showModalBottomSheet(
                       context: context,
                       backgroundColor: Colors.transparent,
