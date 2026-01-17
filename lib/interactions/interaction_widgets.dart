@@ -107,7 +107,7 @@ class TapSurpriseWidget extends StatelessWidget {
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.purpleAccent.withOpacity(0.5),
+                  color: Colors.purpleAccent.withValues(alpha: 0.5),
                   blurRadius: 30,
                   spreadRadius: 5,
                 )
@@ -267,7 +267,7 @@ class _HoldRevealWidgetState extends State<HoldRevealWidget> with SingleTickerPr
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.tealAccent.withOpacity(0.2 + (widget.controller.progress * 0.5)),
+                        color: Colors.tealAccent.withValues(alpha: 0.2 + (widget.controller.progress * 0.5)),
                         blurRadius: 20 + (widget.controller.progress * 50),
                         spreadRadius: widget.controller.progress * 30,
                       )
@@ -361,9 +361,9 @@ class RandomOutcomeWidget extends StatelessWidget {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   gradient: RadialGradient(
-                    colors: [Colors.indigoAccent.withOpacity(0.2), Colors.transparent],
+                    colors: [Colors.indigoAccent.withValues(alpha: 0.2), Colors.transparent],
                   ),
-                  border: Border.all(color: Colors.indigoAccent.withOpacity(0.5), width: 1),
+                  border: Border.all(color: Colors.indigoAccent.withValues(alpha: 0.5), width: 1),
                 ),
                 child: Center(
                   child: Text(
@@ -386,11 +386,11 @@ class RandomOutcomeWidget extends StatelessWidget {
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                   decoration: BoxDecoration(
-                    color: controller.spinning ? Colors.grey.withOpacity(0.2) : Colors.indigoAccent,
+                    color: controller.spinning ? Colors.grey.withValues(alpha: 0.2) : Colors.indigoAccent,
                     borderRadius: BorderRadius.circular(30),
                     boxShadow: [
                       if (!controller.spinning)
-                        BoxShadow(color: Colors.indigoAccent.withOpacity(0.4), blurRadius: 15, spreadRadius: 2)
+                        BoxShadow(color: Colors.indigoAccent.withValues(alpha: 0.4), blurRadius: 15, spreadRadius: 2)
                     ]
                   ),
                   child: Text(
@@ -451,8 +451,9 @@ class EmotionalMeterWidget extends StatelessWidget {
 
         // Determine emoji
         IconData icon;
-        if (controller.value > 0.8) icon = Icons.sentiment_very_satisfied;
-        else if (controller.value > 0.6) icon = Icons.sentiment_satisfied;
+        if (controller.value > 0.8) {
+          icon = Icons.sentiment_very_satisfied;
+        } else if (controller.value > 0.6) icon = Icons.sentiment_satisfied;
         else if (controller.value > 0.4) icon = Icons.sentiment_neutral;
         else if (controller.value > 0.2) icon = Icons.sentiment_dissatisfied;
         else icon = Icons.sentiment_very_dissatisfied;
@@ -501,7 +502,7 @@ class EmotionalMeterWidget extends StatelessWidget {
                         inactiveTrackColor: Colors.white24,
                         thumbColor: Colors.white,
                         thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 15),
-                        overlayColor: Colors.white.withOpacity(0.2),
+                        overlayColor: Colors.white.withValues(alpha: 0.2),
                       ),
                       child: Slider(
                         value: controller.value,
@@ -523,7 +524,7 @@ class EmotionalMeterWidget extends StatelessWidget {
 // 5. FLUID FLOW (Calm Touch)
 // ============================================================================
 class CalmTouchController extends InteractionController {
-  List<Offset> _points = [];
+  final List<Offset> _points = [];
   List<Offset> get points => _points;
 
   void addPoint(Offset p) {
@@ -585,7 +586,7 @@ class LiquidPainter extends CustomPainter {
     }
 
     // Outer Glow
-    paint.color = Colors.cyanAccent.withOpacity(0.2);
+    paint.color = Colors.cyanAccent.withValues(alpha: 0.2);
     paint.strokeWidth = 25;
     paint.maskFilter = const MaskFilter.blur(BlurStyle.normal, 15);
     canvas.drawPath(path, paint);
@@ -652,7 +653,7 @@ class QuoteRevealWidget extends StatelessWidget {
               color: const Color(0xFFF5F5DC), // Beige/Cream
               image: DecorationImage(
                 image: const NetworkImage('https://www.transparenttextures.com/patterns/paper.png'), // Subtle texture if available, or just fallback
-                colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.05), BlendMode.dstATop),
+                colorFilter: ColorFilter.mode(Colors.black.withValues(alpha: 0.05), BlendMode.dstATop),
                 fit: BoxFit.cover,
                 onError: (_, __) {} // Fail gracefully
               )

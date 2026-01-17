@@ -116,7 +116,7 @@ class InvertedFrictionWidget extends StatelessWidget {
                             shape: BoxShape.circle,
                             boxShadow: [
                                 BoxShadow(
-                                    color: Color.lerp(Colors.blue, Colors.red, controller.heat)!.withOpacity(0.8), 
+                                    color: Color.lerp(Colors.blue, Colors.red, controller.heat)!.withValues(alpha: 0.8), 
                                     blurRadius: 20 + (controller.heat * 30)
                                 )
                             ]

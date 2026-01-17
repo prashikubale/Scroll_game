@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:collection';
 import 'dart:math';
 import 'package:flutter/material.dart';
@@ -251,9 +250,9 @@ class SnakeGameWidget extends StatelessWidget {
                     width: 400,
                     height: 400,
                     decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.3),
+                      color: Colors.black.withValues(alpha: 0.3),
                       borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Colors.green.withOpacity(0.5)),
+                      border: Border.all(color: Colors.green.withValues(alpha: 0.5)),
                     ),
                     child: CustomPaint(
                       painter: SnakePainter(controller),
@@ -292,7 +291,7 @@ class SnakePainter extends CustomPainter {
     
     // Draw grid (optional, low opacity)
     /*
-    final gridPaint = Paint()..color = Colors.white.withOpacity(0.05)..style = PaintingStyle.stroke;
+    final gridPaint = Paint()..color = Colors.white.withValues(alpha: 0.05)..style = PaintingStyle.stroke;
     for (int i = 0; i <= 20; i++) {
       canvas.drawLine(Offset(i * cellSize, 0), Offset(i * cellSize, size.height), gridPaint);
       canvas.drawLine(Offset(0, i * cellSize), Offset(size.width, i * cellSize), gridPaint);

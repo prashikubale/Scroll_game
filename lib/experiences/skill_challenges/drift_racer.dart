@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame/events.dart';
@@ -7,7 +6,7 @@ import '../../core/game/mini_game.dart';
 
 class DriftRacer extends FlameGame with DragCallbacks implements MiniGame {
   late CarComponent _car;
-  bool _isGameOver = false;
+  final bool _isGameOver = false;
 
   @override
   Color backgroundColor() => const Color(0xFF222222);

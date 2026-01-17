@@ -140,12 +140,12 @@ class SimonSaysWidget extends StatelessWidget {
                           decoration: BoxDecoration(
                             color: isActive 
                                 ? controller.getColor(index)
-                                : controller.getColor(index).withOpacity(0.3),
+                                : controller.getColor(index).withValues(alpha: 0.3),
                             borderRadius: BorderRadius.circular(20),
                             boxShadow: isActive
                                 ? [
                                     BoxShadow(
-                                      color: controller.getColor(index).withOpacity(0.6),
+                                      color: controller.getColor(index).withValues(alpha: 0.6),
                                       blurRadius: 30,
                                       spreadRadius: 10,
                                     ),

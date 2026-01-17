@@ -15,7 +15,7 @@ class RelativeObserverGameController extends ChangeNotifier implements MiniGame 
   Offset _worldOffset = Offset.zero; // For scrolling background
   Offset _playerVel = Offset.zero;
   
-  List<Offset> _stars = []; // Parallax stars
+  final List<Offset> _stars = []; // Parallax stars
   Offset _dockPos = const Offset(0.0, -0.5); // Relative position
   
   Timer? _gameTimer;
@@ -169,12 +169,17 @@ class RelativeObserverGameController extends ChangeNotifier implements MiniGame 
   void pause() {
     _isPlaying = false;
     _gameTimer?.cancel();
+    _modeSwapTimer?.cancel();
     notifyListeners();
   }
   @override
   void reset() => start();
   @override
-  void dispose() { _gameTimer?.cancel(); super.dispose(); }
+  void dispose() { 
+    _gameTimer?.cancel(); 
+    _modeSwapTimer?.cancel(); 
+    super.dispose(); 
+  }
 }
 
 class RelativeObserverGameWidget extends StatelessWidget {

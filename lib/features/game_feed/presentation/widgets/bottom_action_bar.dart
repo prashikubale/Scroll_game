@@ -27,12 +27,12 @@ class BottomActionBar extends StatelessWidget {
           height: 70,
           padding: const EdgeInsets.symmetric(horizontal: 20),
           decoration: BoxDecoration(
-            color: Colors.black.withOpacity(0.4),
+            color: Colors.black.withValues(alpha: 0.4),
             borderRadius: BorderRadius.circular(30),
-            border: Border.all(color: Colors.white.withOpacity(0.1), width: 1),
+            border: Border.all(color: Colors.white.withValues(alpha: 0.1), width: 1),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.2),
+                color: Colors.black.withValues(alpha: 0.2),
                 blurRadius: 15,
                 spreadRadius: 2,
               )
@@ -80,7 +80,7 @@ class BottomActionBar extends StatelessWidget {
     return Container(
       height: 20,
       width: 1,
-      color: Colors.white.withOpacity(0.1),
+      color: Colors.white.withValues(alpha: 0.1),
     );
   }
 
@@ -104,7 +104,7 @@ class BottomActionBar extends StatelessWidget {
             Text(
               label,
               style: TextStyle(
-                color: color.withOpacity(0.7),
+                color: color.withValues(alpha: 0.7),
                 fontSize: 10,
                 fontWeight: FontWeight.w500,
               ),

@@ -22,15 +22,15 @@ class LiveScoreDisplay extends ConsumerWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
-          color: Colors.black.withOpacity(0.2), // More subtle background
+          color: Colors.black.withValues(alpha: 0.2), // More subtle background
           borderRadius: BorderRadius.circular(30),
           border: Border.all(
-            color: Colors.white.withOpacity(0.1),
+            color: Colors.white.withValues(alpha: 0.1),
             width: 1,
           ),
           boxShadow: [
              BoxShadow(
-               color: Colors.black.withOpacity(0.1),
+               color: Colors.black.withValues(alpha: 0.1),
                blurRadius: 10,
                spreadRadius: 2,
              )
@@ -132,7 +132,7 @@ class ChainReactionPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.amber.withOpacity((1 - progress) * 0.5)
+      ..color = Colors.amber.withValues(alpha: (1 - progress) * 0.5)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 3;
 

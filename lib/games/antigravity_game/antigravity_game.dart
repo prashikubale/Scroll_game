@@ -24,6 +24,7 @@ class AntiGravityGameController extends ChangeNotifier implements MiniGame {
   double get playerRotation => _playerRotation;
   Offset get targetPos => _targetPos;
   bool get isPlaying => _isPlaying;
+  @override
   int get score => _score;
 
   // Constants
@@ -260,7 +261,7 @@ class AntiGravityGameWidget extends StatelessWidget {
                            "Tap to Jump • Swipe to Move\nGravity follows the wall you touch.",
                            textAlign: TextAlign.center,
                            style: TextStyle(
-                             color: Colors.white.withOpacity(0.7),
+                             color: Colors.white.withValues(alpha: 0.7),
                              fontSize: 14,
                            ),
                          ),
@@ -284,7 +285,7 @@ class AntiGravityGameWidget extends StatelessWidget {
                       color: Colors.amberAccent,
                       shape: BoxShape.circle,
                       boxShadow: [
-                         BoxShadow(color: Colors.amber.withOpacity(0.6), blurRadius: 10, spreadRadius: 2),
+                         BoxShadow(color: Colors.amber.withValues(alpha: 0.6), blurRadius: 10, spreadRadius: 2),
                       ],
                     ),
                     child: const Icon(Icons.star, size: 20, color: Colors.white),
@@ -304,7 +305,7 @@ class AntiGravityGameWidget extends StatelessWidget {
                         color: Colors.cyan,
                         borderRadius: BorderRadius.circular(8),
                         boxShadow: [
-                          BoxShadow(color: Colors.cyanAccent.withOpacity(0.5), blurRadius: 10),
+                          BoxShadow(color: Colors.cyanAccent.withValues(alpha: 0.5), blurRadius: 10),
                         ],
                         border: Border.all(color: Colors.white, width: 2),
                       ),
@@ -352,7 +353,7 @@ class GridPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.white.withOpacity(0.05)
+      ..color = Colors.white.withValues(alpha: 0.05)
       ..strokeWidth = 1;
       
     final double step = size.width / 10;

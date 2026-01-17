@@ -14,8 +14,6 @@ class PrecisionTargetController extends ChangeNotifier implements MiniGame {
   void pause() { _active = false; notifyListeners(); }
   @override
   void reset() { _score = 0; notifyListeners(); }
-  @override
-  void dispose() { super.dispose(); }
   void addScore(int points) { _score += points; notifyListeners(); }
   bool get isActive => _active;
 }
@@ -29,7 +27,7 @@ class PrecisionTargetWidget extends StatefulWidget {
 
 class _PrecisionTargetWidgetState extends State<PrecisionTargetWidget> with SingleTickerProviderStateMixin {
   late AnimationController _ticker;
-  List<_Target> _targets = [];
+  final List<_Target> _targets = [];
   Timer? _spawner;
   @override
   void initState() {
@@ -95,7 +93,7 @@ class _TargetPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final paint = Paint();
     for (var t in targets) {
-      paint.color = Colors.redAccent.withOpacity(t.life);
+      paint.color = Colors.redAccent.withValues(alpha: t.life);
       canvas.drawCircle(Offset(t.x, t.y), t.radius, paint);
     }
   }

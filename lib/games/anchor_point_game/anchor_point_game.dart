@@ -11,7 +11,7 @@ class AnchorPointGameController extends ChangeNotifier implements MiniGame {
   Offset _playerPos = const Offset(0.5, 0.5);
   Offset _playerVel = const Offset(0.005, 0.0);
   
-  List<Offset> _nodes = [];
+  final List<Offset> _nodes = [];
   Offset? _anchoredNode;
   
   Timer? _gameTimer;
@@ -163,7 +163,7 @@ class AnchorPointGameWidget extends StatelessWidget {
                         decoration: BoxDecoration(
                             color: Colors.pinkAccent,
                             shape: BoxShape.circle,
-                            boxShadow: [BoxShadow(color: Colors.pink.withOpacity(0.5), blurRadius: 10)]
+                            boxShadow: [BoxShadow(color: Colors.pink.withValues(alpha: 0.5), blurRadius: 10)]
                         ),
                     ),
                 )),

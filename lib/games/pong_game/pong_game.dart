@@ -67,8 +67,9 @@ class PongController extends ChangeNotifier implements MiniGame {
        // AI relaxes when ball is on player side
     } else {
        // AI tries to center paddle on ball
-       if (_aiX < targetX - 0.02) _aiX += 0.012;
-       else if (_aiX > targetX + 0.02) _aiX -= 0.012;
+       if (_aiX < targetX - 0.02) {
+         _aiX += 0.012;
+       } else if (_aiX > targetX + 0.02) _aiX -= 0.012;
     }
     _aiX = _aiX.clamp(paddleWidth / 2, 1.0 - paddleWidth / 2);
     
@@ -209,7 +210,7 @@ class PongWidget extends StatelessWidget {
                         child: Text(
                           "TAP TO START",
                           style: TextStyle(
-                            color: Colors.white.withOpacity(0.5),
+                            color: Colors.white.withValues(alpha: 0.5),
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
                             letterSpacing: 2,
@@ -226,7 +227,7 @@ class PongWidget extends StatelessWidget {
                         child: Text(
                           controller.score.toString(),
                           style: TextStyle(
-                            color: Colors.white.withOpacity(0.1),
+                            color: Colors.white.withValues(alpha: 0.1),
                             fontSize: 80,
                             fontWeight: FontWeight.bold,
                           ),
@@ -239,7 +240,7 @@ class PongWidget extends StatelessWidget {
                       child: Container(
                         height: 2,
                         width: double.infinity,
-                        color: Colors.white.withOpacity(0.1),
+                        color: Colors.white.withValues(alpha: 0.1),
                       ),
                     ),
                     
@@ -254,7 +255,7 @@ class PongWidget extends StatelessWidget {
                           color: Colors.redAccent,
                           borderRadius: BorderRadius.circular(10),
                           boxShadow: [
-                             BoxShadow(color: Colors.redAccent.withOpacity(0.5), blurRadius: 8),
+                             BoxShadow(color: Colors.redAccent.withValues(alpha: 0.5), blurRadius: 8),
                           ],
                         ),
                       ),
@@ -271,7 +272,7 @@ class PongWidget extends StatelessWidget {
                           color: Colors.cyanAccent,
                           borderRadius: BorderRadius.circular(10),
                           boxShadow: [
-                             BoxShadow(color: Colors.cyanAccent.withOpacity(0.5), blurRadius: 8),
+                             BoxShadow(color: Colors.cyanAccent.withValues(alpha: 0.5), blurRadius: 8),
                           ],
                         ),
                       ),
@@ -289,7 +290,7 @@ class PongWidget extends StatelessWidget {
                           color: Colors.white,
                           shape: BoxShape.circle,
                           boxShadow: [
-                            BoxShadow(color: Colors.white.withOpacity(0.8), blurRadius: 10),
+                            BoxShadow(color: Colors.white.withValues(alpha: 0.8), blurRadius: 10),
                           ],
                         ),
                       ),

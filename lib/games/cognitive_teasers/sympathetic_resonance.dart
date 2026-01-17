@@ -102,7 +102,7 @@ class SympatheticResonanceWidget extends StatelessWidget {
       builder: (context, child) {
         final rnd = Random();
         double shakeX = (rnd.nextDouble() - 0.5) * 10 * controller.vibrationIntensity;
-        double shakeY = (rnd.nextDouble() - 0.5) * 50 * controller.vibrationIntensity; // Vertical violence
+
         
         return Container(
           color: const Color(0xFF222222),

@@ -7,7 +7,7 @@ class AnticipatoryShadowController extends ChangeNotifier implements MiniGame {
   int _score = 0;
   
   double _progress = 0.0; // 0.0 represents distance, 1.0 is IMPACT
-  double _speed = 0.005;
+  final double _speed = 0.005;
   bool _crashed = false;
   bool _caught = false;
   
@@ -112,7 +112,7 @@ class AnticipatoryShadowWidget extends StatelessWidget {
             child: Stack(
               children: [
                 if (controller.crashed)
-                    Container(color: Colors.black.withOpacity(0.8), child: const Center(child: Text("CRASH", style: TextStyle(color: Colors.white, fontSize: 40, fontWeight: FontWeight.bold)))),
+                    Container(color: Colors.black.withValues(alpha: 0.8), child: const Center(child: Text("CRASH", style: TextStyle(color: Colors.white, fontSize: 40, fontWeight: FontWeight.bold)))),
                     
                 if (controller.caught)
                     const Center(child: Text("INTERCEPTED", style: TextStyle(color: Colors.black, fontSize: 30, letterSpacing: 5))),

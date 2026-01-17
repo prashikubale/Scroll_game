@@ -96,7 +96,7 @@ class _SunStartingPageState extends State<SunStartingPage> with SingleTickerProv
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.amber.withOpacity(0.3),
+                            color: Colors.amber.withValues(alpha: 0.3),
                             blurRadius: 60,
                             spreadRadius: 10,
                           ),
@@ -122,7 +122,7 @@ class _SunStartingPageState extends State<SunStartingPage> with SingleTickerProv
                       letterSpacing: 8,
                       shadows: [
                         Shadow(
-                          color: Colors.purpleAccent.withOpacity(0.5),
+                          color: Colors.purpleAccent.withValues(alpha: 0.5),
                           offset: const Offset(0, 0),
                           blurRadius: 20,
                         ),
@@ -136,9 +136,9 @@ class _SunStartingPageState extends State<SunStartingPage> with SingleTickerProv
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.05),
+                      color: Colors.white.withValues(alpha: 0.05),
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Colors.white.withOpacity(0.1)),
+                      border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
                     ),
                     child: Text(
                       'scroll without being braindead',
@@ -164,11 +164,11 @@ class _SunStartingPageState extends State<SunStartingPage> with SingleTickerProv
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                             decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.9),
+                              color: Colors.white.withValues(alpha: 0.9),
                               borderRadius: BorderRadius.circular(50),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.purple.withOpacity(0.3),
+                                  color: Colors.purple.withValues(alpha: 0.3),
                                   blurRadius: 20,
                                   offset: const Offset(0, 10),
                                 ),

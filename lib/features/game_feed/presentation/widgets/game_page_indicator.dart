@@ -36,7 +36,7 @@ class GamePageIndicator extends StatelessWidget {
                 boxShadow: isActive
                     ? [
                         BoxShadow(
-                          color: Colors.white.withOpacity(0.5),
+                          color: Colors.white.withValues(alpha: 0.5),
                           blurRadius: 8,
                           spreadRadius: 2,
                         ),

@@ -8,7 +8,7 @@ class MetaDecayController extends ChangeNotifier implements MiniGame {
   int _score = 0;
   
   double _clarity = 0.0; // 0.0 dirty, 1.0 clean
-  List<Offset> _dustParticles = [];
+  final List<Offset> _dustParticles = [];
   
   Timer? _gameTimer;
   
@@ -102,7 +102,7 @@ class MetaDecayWidget extends StatelessWidget {
                 Opacity(
                     opacity: 1.0 - controller.clarity,
                     child: Container(
-                        color: Colors.black.withOpacity(0.9), // Thick grime
+                        color: Colors.black.withValues(alpha: 0.9), // Thick grime
                         child: CustomPaint(
                             painter: DustPainter(controller.dustParticles),
                             size: Size.infinite,

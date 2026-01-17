@@ -12,7 +12,7 @@ class CausalityEchoGameController extends ChangeNotifier implements MiniGame {
   Offset _targetPos = const Offset(0.8, 0.2);
   
   // Input Queue (TimeStamped)
-  Queue<ActionEvents> _futureActions = Queue();
+  final Queue<ActionEvents> _futureActions = Queue();
   static const int delayMs = 1500; // 1.5 seconds delay
   
   Timer? _gameTimer;

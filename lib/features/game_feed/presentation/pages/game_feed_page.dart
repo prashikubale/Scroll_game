@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/game_providers.dart';
 import 'game_page.dart';
-import '../widgets/game_page_indicator.dart';
-import 'profile_page.dart';
 
 class GameFeedPage extends ConsumerWidget {
   const GameFeedPage({super.key});
@@ -51,16 +49,20 @@ class GameFeedPage extends ConsumerWidget {
                   return GamePage(game: game, index: index);
                 },
               ),
-              // GamePageIndicator removed as per user request ("side scroll dikhra hu hatade")
-              // GamePageIndicator(
-              //   currentIndex: currentIndex >= games.length ? 0 : currentIndex,
-              //   totalGames: games.length,
-              // ),
             ],
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (err, stack) => Center(child: Text('Error: $err', style: const TextStyle(color: Colors.red))),
+        error: (err, stack) => Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              'Something went wrong:\n$err',
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: Colors.redAccent, fontSize: 16),
+            ),
+          ),
+        ),
       ),
     );
   }

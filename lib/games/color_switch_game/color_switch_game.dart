@@ -151,7 +151,7 @@ class ColorSwitchWidget extends StatelessWidget {
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
-                      color: controller.targetColor.withOpacity(0.5),
+                      color: controller.targetColor.withValues(alpha: 0.5),
                       blurRadius: 30,
                       spreadRadius: 10,
                     ),
@@ -170,7 +170,7 @@ class ColorSwitchWidget extends StatelessWidget {
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
-                        color: controller.currentColor.withOpacity(0.6),
+                        color: controller.currentColor.withValues(alpha: 0.6),
                         blurRadius: 40,
                         spreadRadius: 15,
                       ),

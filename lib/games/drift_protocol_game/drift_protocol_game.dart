@@ -8,12 +8,12 @@ class DriftProtocolGameController extends ChangeNotifier implements MiniGame {
   int _score = 0;
   
   // Simulation Board (0.0 to 1.0)
-  List<DriftParticle> _particles = [];
+  final List<DriftParticle> _particles = [];
   DriftParticle? _keyParticle;
   Offset _destinationZone = const Offset(0.9, 0.9); // Bottom Right
   
   // User Inputs
-  List<FieldModifier> _modifiers = [];
+  final List<FieldModifier> _modifiers = [];
   
   Timer? _gameTimer;
   final Random _rnd = Random();
@@ -54,7 +54,7 @@ class DriftProtocolGameController extends ChangeNotifier implements MiniGame {
           pos: Offset(_rnd.nextDouble() * 0.2, _rnd.nextDouble() * 0.2),
           vel: Offset(_rnd.nextDouble() * 0.005 + 0.002, _rnd.nextDouble() * 0.005 + 0.002),
           isKey: false,
-          color: Colors.white.withOpacity(0.3),
+          color: Colors.white.withValues(alpha: 0.3),
         ));
     }
     
@@ -219,7 +219,7 @@ class DriftProtocolGameWidget extends StatelessWidget {
                          const SizedBox(height: 10),
                          Text("Tap: Place Density Well (Slow)\nHold: Place Repulsor (Push)\nGuide the Cyan Particle.",
                            textAlign: TextAlign.center,
-                           style: TextStyle(color: Colors.white.withOpacity(0.6)),
+                           style: TextStyle(color: Colors.white.withValues(alpha: 0.6)),
                          ),
                          const SizedBox(height: 20),
                          const Text("TAP TO INITIALIZE", style: TextStyle(color: Colors.white)),
@@ -235,8 +235,8 @@ class DriftProtocolGameWidget extends StatelessWidget {
                     width: 80, height: 80,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      border: Border.all(color: Colors.greenAccent.withOpacity(0.5), width: 2),
-                      color: Colors.greenAccent.withOpacity(0.1),
+                      border: Border.all(color: Colors.greenAccent.withValues(alpha: 0.5), width: 2),
+                      color: Colors.greenAccent.withValues(alpha: 0.1),
                     ),
                     child: const Center(child: Icon(Icons.flag, color: Colors.greenAccent)),
                   ),
@@ -256,8 +256,8 @@ class DriftProtocolGameWidget extends StatelessWidget {
                        decoration: BoxDecoration(
                          shape: BoxShape.circle,
                          color: m.type == ModifierType.densityWell 
-                             ? Colors.blue.withOpacity(0.3 * m.life)
-                             : Colors.orange.withOpacity(0.3 * m.life),
+                             ? Colors.blue.withValues(alpha: 0.3 * m.life)
+                             : Colors.orange.withValues(alpha: 0.3 * m.life),
                          border: Border.all(
                             color: m.type == ModifierType.densityWell ? Colors.blue : Colors.orange,
                             width: 1,

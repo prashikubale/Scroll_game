@@ -30,6 +30,7 @@ class UntetheredGameController extends ChangeNotifier implements MiniGame {
   List<Particle> get particles => _particles;
   List<Offset> get coins => _coins;
   bool get isPlaying => _isPlaying;
+  @override
   int get score => _score;
 
   @override
@@ -216,7 +217,7 @@ class UntetheredGameWidget extends StatelessWidget {
                            "Tap BEHIND to push forward.\nZero Friction. Inertia is key.",
                            textAlign: TextAlign.center,
                            style: TextStyle(
-                             color: Colors.white.withOpacity(0.6),
+                             color: Colors.white.withValues(alpha: 0.6),
                              fontSize: 14,
                            ),
                          ),
@@ -243,7 +244,7 @@ class UntetheredGameWidget extends StatelessWidget {
                   child: Container(
                     width: 4, height: 4,
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(p.life),
+                      color: Colors.white.withValues(alpha: p.life),
                       shape: BoxShape.circle,
                     ),
                   ),
@@ -266,7 +267,7 @@ class UntetheredGameWidget extends StatelessWidget {
                   child: Text(
                     controller.score.toString(),
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.3),
+                      color: Colors.white.withValues(alpha: 0.3),
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
                     ),

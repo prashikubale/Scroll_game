@@ -194,14 +194,27 @@ abstract class GameFactory {
       case ExperienceType.causalityEcho: return _createCausalityEcho();
       case ExperienceType.voidMirror: return _createVoidMirror();
 
-      // --- COGNITIVE TEASERS ---
-      case ExperienceType.sympatheticResonance: return _createSympatheticResonance();
-      case ExperienceType.voidStare: return _createVoidStare();
-      case ExperienceType.anticipatoryShadow: return _createAnticipatoryShadow();
-      case ExperienceType.invertedFriction: return _createInvertedFriction();
-      case ExperienceType.chromaticSilence: return _createChromaticSilence();
-      case ExperienceType.metaDecay: return _createMetaDecay();
-      case ExperienceType.observerEffect: return _createObserverEffect();
+      // --- COGNITIVE TEASERS (20 Micro-Disruptions) ---
+      case ExperienceType.kineticSilence: return _createKineticSilence();
+      case ExperienceType.anticipatoryShadow: return _createAnticipatoryShadow(); // Reusing existing or need update
+      case ExperienceType.voidBlink: return _createPlaceholder('Void Blink');
+      case ExperienceType.frictionInversion: return _createInvertedFriction(); // Reusing
+      case ExperienceType.chromaticDecay: return _createPlaceholder('Chromatic Decay');
+      case ExperienceType.echoCoordinates: return _createPlaceholder('Echo Coordinates');
+      case ExperienceType.peripheralClarity: return _createPlaceholder('Peripheral Clarity');
+      case ExperienceType.weightlessHeavy: return _createPlaceholder('Weightless Heavy');
+      case ExperienceType.observerEffect: return _createObserverEffect(); // Reusing
+      case ExperienceType.elasticDistance: return _createPlaceholder('Elastic Distance');
+      case ExperienceType.sonicPaint: return _createPlaceholder('Sonic Paint');
+      case ExperienceType.momentumTrap: return _createPlaceholder('Momentum Trap');
+      case ExperienceType.vanishingPoint: return _createPlaceholder('Vanishing Point');
+      case ExperienceType.phaseShift: return _createPlaceholder('Phase Shift');
+      case ExperienceType.mirrorLie: return _createPlaceholder('Mirror Lie');
+      case ExperienceType.magneticResistance: return _createPlaceholder('Magnetic Resistance');
+      case ExperienceType.memoryStain: return _createPlaceholder('Memory Stain');
+      case ExperienceType.velocityLock: return _createPlaceholder('Velocity Lock');
+      case ExperienceType.binaryNoise: return _createPlaceholder('Binary Noise');
+      case ExperienceType.unseenTether: return _createPlaceholder('Unseen Tether');
 
       // --- INTERACTIONS ---
       case ExperienceType.tapSurprise: return _createTapSurprise();
@@ -247,6 +260,10 @@ abstract class GameFactory {
   }
 
   // --- NEW FACTORY METHODS ---
+  static GameInstances _createKineticSilence() {
+    return _createPlaceholder('Kinetic Silence');
+  }
+
   static GameInstances _createCatchGame() {
     final ctrl = CatchGameController();
     return GameInstances(CatchGameWidget(controller: ctrl), ctrl);

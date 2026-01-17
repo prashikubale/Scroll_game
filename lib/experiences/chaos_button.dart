@@ -62,7 +62,7 @@ class _ChaosButtonState extends State<ChaosButton> with SingleTickerProviderStat
                          shape: BoxShape.circle,
                          boxShadow: [
                            BoxShadow(
-                             color: Colors.white.withOpacity(0.5),
+                             color: Colors.white.withValues(alpha: 0.5),
                              blurRadius: 50,
                              spreadRadius: 10,
                            )

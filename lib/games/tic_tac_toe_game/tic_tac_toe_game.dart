@@ -152,10 +152,6 @@ class TicTacToeController extends ChangeNotifier implements MiniGame {
   @override
   int get score => _score;
   
-  @override
-  void dispose() {
-    super.dispose();
-  }
 }
 
 class TicTacToeWidget extends StatelessWidget {
@@ -200,7 +196,7 @@ class TicTacToeWidget extends StatelessWidget {
                 height: 300,
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.1),
+                  color: Colors.white.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: GridView.builder(
@@ -218,7 +214,7 @@ class TicTacToeWidget extends StatelessWidget {
                       onTap: () => controller.move(index),
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.05),
+                          color: Colors.white.withValues(alpha: 0.05),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Center(

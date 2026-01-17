@@ -129,7 +129,7 @@ class EyePainter extends CustomPainter {
     final paint = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2.0
-      ..color = Colors.white.withOpacity(0.5);
+      ..color = Colors.white.withValues(alpha: 0.5);
 
     // Sclera boundaries (Eyelids)
     // Draw using two curves clipping? Or just scale height.
@@ -152,7 +152,7 @@ class EyePainter extends CustomPainter {
         
         canvas.drawOval(
             Rect.fromCenter(center: Offset.zero, width: r*2, height: ovalH*2), 
-            paint..color = Colors.cyanAccent.withOpacity(0.1 + (i*0.1))
+            paint..color = Colors.cyanAccent.withValues(alpha: 0.1 + (i*0.1))
         );
     }
     

@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/game_session_model.dart';
 import '../../domain/entities/game_entity.dart';
-import '../../../../core/errors/failures.dart';
 
 abstract class GameLocalDataSource {
   Future<List<ExperienceEntity>> getGames();
@@ -281,54 +280,145 @@ class GameLocalDataSourceImpl implements GameLocalDataSource {
         type: ExperienceType.voidMirror,
         assetPath: '',
       ),
-      // Cognitive Teasers
-       const ExperienceEntity(
-        id: 'teaser_sympathetic',
-        name: 'Sympathetic Resonance',
-        description: 'Experiment: Calm the chaos.\nAction: Hold the static line to soothe the vibrating one.',
-        type: ExperienceType.sympatheticResonance,
+      // Cognitive Teasers (The 20 Micro-Disruptions)
+      const ExperienceEntity(
+        id: 'teaser_kinetic_silence',
+        name: 'Kinetic Silence',
+        description: 'Experiment: Silence via Force.\nAction: Long press. Harder = Quieter.',
+        type: ExperienceType.kineticSilence,
         assetPath: '',
       ),
-       const ExperienceEntity(
-        id: 'teaser_void_stare',
-        name: 'The Void Stare',
-        description: 'Experiment: Do NOT observe.\nAction: Stop touching the screen. Let it open.',
-        type: ExperienceType.voidStare,
-        assetPath: '',
-      ),
-       const ExperienceEntity(
-        id: 'teaser_shadow',
+      const ExperienceEntity(
+        id: 'teaser_anticipatory_shadow',
         name: 'Anticipatory Shadow',
-        description: 'Experiment: Catch the loom.\nAction: Tap exactly when the shadow fills the circle.',
+        description: 'Experiment: Temporal Drag.\nAction: Move the shadow. The object follows.',
         type: ExperienceType.anticipatoryShadow,
         assetPath: '',
       ),
-       const ExperienceEntity(
-        id: 'teaser_friction',
-        name: 'Inverted Friction',
-        description: 'Experiment: Generate Heat.\nAction: Swipe rapidly to create "drag" and suspend the orb.',
-        type: ExperienceType.invertedFriction,
+      const ExperienceEntity(
+        id: 'teaser_void_blink',
+        name: 'The Void Blink',
+        description: 'Experiment: Negation of Agency.\nAction: Stop touching to exist.',
+        type: ExperienceType.voidBlink,
         assetPath: '',
       ),
-       const ExperienceEntity(
-        id: 'teaser_silence',
-        name: 'Chromatic Silence',
-        description: 'Experiment: Find Stability.\nAction: Hold screen when the "Silent Color" appears.',
-        type: ExperienceType.chromaticSilence,
+      const ExperienceEntity(
+        id: 'teaser_friction_inversion',
+        name: 'Friction Inversion',
+        description: 'Experiment: Heavy Air.\nAction: Move microscopic slow. Fast is frozen.',
+        type: ExperienceType.frictionInversion,
         assetPath: '',
       ),
-       const ExperienceEntity(
-        id: 'teaser_decay',
-        name: 'Meta-Decay',
-        description: 'Experiment: System Clean.\nAction: Scrub/Swipe furiously to clean the interface.',
-        type: ExperienceType.metaDecay,
+      const ExperienceEntity(
+        id: 'teaser_chromatic_decay',
+        name: 'Chromatic Decay',
+        description: 'Experiment: Entropy Reversal.\nAction: Scroll backwards to restore color.',
+        type: ExperienceType.chromaticDecay,
         assetPath: '',
       ),
-       const ExperienceEntity(
-        id: 'teaser_observer',
-        name: 'Observer Effect',
-        description: 'Experiment: Collapse the Wave.\nAction: Touch to observe (Solid). Release to wave.',
+      const ExperienceEntity(
+        id: 'teaser_echo_coordinates',
+        name: 'Echo Coordinates',
+        description: 'Experiment: Trust the Past.\nAction: Tap now. See it later.',
+        type: ExperienceType.echoCoordinates,
+        assetPath: '',
+      ),
+      const ExperienceEntity(
+        id: 'teaser_peripheral_clarity',
+        name: 'Peripheral Clarity',
+        description: 'Experiment: Anti-Foveal.\nAction: Drag to the edge to see clearly.',
+        type: ExperienceType.peripheralClarity,
+        assetPath: '',
+      ),
+      const ExperienceEntity(
+        id: 'teaser_weightless_heavy',
+        name: 'Weightless Heavy',
+        description: 'Experiment: Inverted Mass.\nAction: Push UP to go DOWN.',
+        type: ExperienceType.weightlessHeavy,
+        assetPath: '',
+      ),
+      const ExperienceEntity(
+        id: 'teaser_observer_effect',
+        name: 'The Observer Effect',
+        description: 'Experiment: Collapse the Wave.\nAction: Perfect stillness creates order.',
         type: ExperienceType.observerEffect,
+        assetPath: '',
+      ),
+      const ExperienceEntity(
+        id: 'teaser_elastic_distance',
+        name: 'Elastic Distance',
+        description: 'Experiment: Space is Flexible.\nAction: Stretch the gap.',
+        type: ExperienceType.elasticDistance,
+        assetPath: '',
+      ),
+      const ExperienceEntity(
+        id: 'teaser_sonic_paint',
+        name: 'Sonic Paint',
+        description: 'Experiment: Auditory Light.\nAction: Silence bursts into light.',
+        type: ExperienceType.sonicPaint,
+        assetPath: '',
+      ),
+      const ExperienceEntity(
+        id: 'teaser_momentum_trap',
+        name: 'Momentum Trap',
+        description: 'Experiment: Feed the Spin.\nAction: Swipe against to speed up.',
+        type: ExperienceType.momentumTrap,
+        assetPath: '',
+      ),
+      const ExperienceEntity(
+        id: 'teaser_vanishing_point',
+        name: 'The Vanishing Point',
+        description: 'Experiment: Zenos Paradox.\nAction: Retreat to approach.',
+        type: ExperienceType.vanishingPoint,
+        assetPath: '',
+      ),
+      const ExperienceEntity(
+        id: 'teaser_phase_shift',
+        name: 'Phase Shift',
+        description: 'Experiment: Align Time.\nAction: Tap to shift the wave phase.',
+        type: ExperienceType.phaseShift,
+        assetPath: '',
+      ),
+      const ExperienceEntity(
+        id: 'teaser_mirror_lie',
+        name: 'The Mirror Lie',
+        description: 'Experiment: Cached Reality.\nAction: Touch the real (boring) side.',
+        type: ExperienceType.mirrorLie,
+        assetPath: '',
+      ),
+      const ExperienceEntity(
+        id: 'teaser_magnetic_resistance',
+        name: 'Magnetic Resistance',
+        description: 'Experiment: Repulsion Field.\nAction: Push the space AROUND it.',
+        type: ExperienceType.magneticResistance,
+        assetPath: '',
+      ),
+      const ExperienceEntity(
+        id: 'teaser_memory_stain',
+        name: 'The Memory Stain',
+        description: 'Experiment: Permanent Mistake.\nAction: Create perfection. No undo.',
+        type: ExperienceType.memoryStain,
+        assetPath: '',
+      ),
+      const ExperienceEntity(
+        id: 'teaser_velocity_lock',
+        name: 'Velocity Lock',
+        description: 'Experiment: Derivative Control.\nAction: Maintain constant velocity.',
+        type: ExperienceType.velocityLock,
+        assetPath: '',
+      ),
+      const ExperienceEntity(
+        id: 'teaser_binary_noise',
+        name: 'Binary Noise',
+        description: 'Experiment: Temporal Filtering.\nAction: Rapid tap to squint.',
+        type: ExperienceType.binaryNoise,
+        assetPath: '',
+      ),
+      const ExperienceEntity(
+        id: 'teaser_unseen_tether',
+        name: 'The Unseen Tether',
+        description: 'Experiment: Invisible Mass.\nAction: Swing the heavy anchor.',
+        type: ExperienceType.unseenTether,
         assetPath: '',
       ),
     ];
@@ -366,6 +456,7 @@ class GameLocalDataSourceImpl implements GameLocalDataSource {
     await saveGameSession(session);
   }
 
+  @override
   Future<void> saveGameSession(GameSessionModel session) async {
     final List<GameSessionModel> currentSessions = await _getStoredSessions();
     currentSessions.add(session);
@@ -374,6 +465,7 @@ class GameLocalDataSourceImpl implements GameLocalDataSource {
     await sharedPreferences.setString(kGameSessionsKey, json.encode(jsonList));
   }
 
+  @override
   Future<List<GameSessionModel>> getGameSessions() async {
     return _getStoredSessions();
   }

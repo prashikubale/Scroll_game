@@ -60,7 +60,7 @@ class _LikeButtonOverlayState extends State<LikeButtonOverlay> with SingleTicker
                   child: Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.2),
+                      color: Colors.black.withValues(alpha: 0.2),
                       shape: BoxShape.circle,
                     ),
                     child: Icon(
@@ -69,7 +69,7 @@ class _LikeButtonOverlayState extends State<LikeButtonOverlay> with SingleTicker
                       size: 48, // "Bada" (Big)
                       shadows: [
                         BoxShadow(
-                          color: _isLiked ? Colors.redAccent.withOpacity(0.5) : Colors.black26,
+                          color: _isLiked ? Colors.redAccent.withValues(alpha: 0.5) : Colors.black26,
                           blurRadius: 15,
                           spreadRadius: 2,
                         ),

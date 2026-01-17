@@ -83,7 +83,7 @@ class ProfilePage extends ConsumerWidget {
               painter: RadarChartPainter(
                 stats: stats,
                 lineColor: Colors.deepPurpleAccent,
-                fillColor: Colors.deepPurple.withOpacity(0.3),
+                fillColor: Colors.deepPurple.withValues(alpha: 0.3),
               ),
             ),
           ),
@@ -111,7 +111,7 @@ class ProfilePage extends ConsumerWidget {
               // Show newest first
               final session = sessions[sessions.length - 1 - index];
               return Card(
-                color: Colors.white.withOpacity(0.05),
+                color: Colors.white.withValues(alpha: 0.05),
                 margin: const EdgeInsets.only(bottom: 8),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 child: ListTile(
@@ -253,8 +253,11 @@ class RadarChartPainter extends CustomPainter {
       double angle = -pi / 2 + (i * angleStep);
       double x = center.dx + radius * cos(angle);
       double y = center.dy + radius * sin(angle);
-      if (i == 0) path.moveTo(x, y);
-      else path.lineTo(x, y);
+      if (i == 0) {
+        path.moveTo(x, y);
+      } else {
+        path.lineTo(x, y);
+      }
     }
     path.close();
     canvas.drawPath(path, paint);

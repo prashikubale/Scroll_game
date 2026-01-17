@@ -9,7 +9,7 @@ class ObserverEffectController extends ChangeNotifier implements MiniGame {
   
   bool _isObserved = false;
   Offset _keyPos = const Offset(0.5, 0.5);
-  Offset _lockPos = const Offset(0.8, 0.2);
+  final Offset _lockPos = const Offset(0.8, 0.2);
   
   // Wave properties
   double _time = 0.0;
@@ -147,7 +147,7 @@ class WaveFuncPainter extends CustomPainter {
         final paint = Paint()
            ..style = PaintingStyle.stroke
            ..strokeWidth = 1
-           ..color = Colors.cyan.withOpacity(0.5);
+           ..color = Colors.cyan.withValues(alpha: 0.5);
            
         // Draw interference rings
         for(int i=0; i<5; i++) {

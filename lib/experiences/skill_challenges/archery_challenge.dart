@@ -255,6 +255,7 @@ class TargetComponent extends PositionComponent {
     }
   }
   
+  @override
   bool containsPoint(Vector2 point) {
     return position.distanceTo(point) < size.x/2;
   }

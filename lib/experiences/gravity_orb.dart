@@ -141,13 +141,13 @@ class _GravityOrbState extends State<GravityOrb> with SingleTickerProviderStateM
                        colors: [
                          Colors.white, 
                          _orbColor, 
-                         _orbColor.withOpacity(0.0)
+                         _orbColor.withValues(alpha: 0.0)
                        ],
                        stops: const [0.1, 0.4, 1.0],
                      ),
                      boxShadow: [
                        BoxShadow(
-                         color: _orbColor.withOpacity(0.3 + (_pulseController.value * 0.2)),
+                         color: _orbColor.withValues(alpha: 0.3 + (_pulseController.value * 0.2)),
                          blurRadius: 30 + (_pulseController.value * 20),
                          spreadRadius: 10,
                        )

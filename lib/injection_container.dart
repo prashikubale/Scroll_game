@@ -9,6 +9,7 @@ import 'features/game_feed/domain/usecases/get_games_feed.dart';
 import 'features/game_feed/domain/usecases/save_game_score.dart';
 import 'features/game_feed/domain/usecases/get_game_sessions.dart';
 import 'features/game_feed/domain/usecases/save_game_session.dart';
+import 'core/services/sound_manager.dart';
 
 final sl = GetIt.instance;
 
@@ -33,4 +34,7 @@ Future<void> init() async {
   //! External
   final sharedPreferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton(() => sharedPreferences);
+
+  //! Core
+  sl.registerLazySingleton(() => SoundManager());
 }

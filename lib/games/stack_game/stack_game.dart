@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:math';
-import 'dart:ui';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame/events.dart';
@@ -140,8 +139,11 @@ class StackGame extends FlameGame with TapCallbacks implements MiniGame {
 
   @override
   void start() {
-    if (_isGameOver) reset();
-    else resumeEngine();
+    if (_isGameOver) {
+      reset();
+    } else {
+      resumeEngine();
+    }
   }
 }
 
@@ -167,7 +169,7 @@ class StackBlock3D extends PositionComponent {
     
     // Shadow (Rich Drop Shadow)
     final shadowPaint = Paint()
-      ..color = Colors.black.withOpacity(0.4)
+      ..color = Colors.black.withValues(alpha: 0.4)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 12);
     
     final shadowRect = Rect.fromLTWH(8, 12, size.x, size.y);
@@ -239,8 +241,8 @@ class StackBlock3D extends PositionComponent {
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
         colors: [
-          Colors.white.withOpacity(0.4),
-          Colors.white.withOpacity(0.0),
+          Colors.white.withValues(alpha: 0.4),
+          Colors.white.withValues(alpha: 0.0),
         ],
         stops: const [0.0, 0.5],
       ).createShader(frontRect);
@@ -293,7 +295,7 @@ class MovingBlock3D extends PositionComponent {
     
     // Shadow
     final shadowPaint = Paint()
-      ..color = Colors.black.withOpacity(0.4)
+      ..color = Colors.black.withValues(alpha: 0.4)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 12);
     
     canvas.drawRRect(
@@ -366,8 +368,8 @@ class MovingBlock3D extends PositionComponent {
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
         colors: [
-          Colors.white.withOpacity(0.4),
-          Colors.white.withOpacity(0.0),
+          Colors.white.withValues(alpha: 0.4),
+          Colors.white.withValues(alpha: 0.0),
         ],
         stops: const [0.0, 0.5],
       ).createShader(frontRect);

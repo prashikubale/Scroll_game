@@ -14,8 +14,8 @@ class VoidMirrorGameController extends ChangeNotifier implements MiniGame {
   Offset _p2Vel = Offset.zero;
   
   // Obstacles
-  List<Rect> _obs1 = []; // Top Obstacles
-  List<Rect> _obs2 = []; // Bottom Obstacles
+  final List<Rect> _obs1 = []; // Top Obstacles
+  final List<Rect> _obs2 = []; // Bottom Obstacles
   
   Timer? _gameTimer;
   final Random _rnd = Random();

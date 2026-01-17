@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'injection_container.dart' as di;
-import 'features/game_feed/presentation/pages/game_feed_page.dart';
-import 'features/splash/splash_screen.dart';
 import 'features/starting_page/presentation/pages/sun_starting_page.dart';
 import 'core/app_scroll_behavior.dart';
 
@@ -22,7 +20,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool _showSplash = true;
+
 
   @override
   Widget build(BuildContext context) {

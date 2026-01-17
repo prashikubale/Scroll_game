@@ -16,6 +16,7 @@ class OrbitalVoidGameController extends ChangeNotifier implements MiniGame {
   double get worldRotation => _worldRotation;
   List<Asteroid> get asteroids => _asteroids;
   bool get isPlaying => _isPlaying;
+  @override
   int get score => _score;
 
   @override
@@ -220,7 +221,7 @@ class OrbitalVoidGameWidget extends StatelessWidget {
                            "Swipe to Rotate Reality.\nCatch meteors with your Shield (Top).",
                            textAlign: TextAlign.center,
                            style: TextStyle(
-                             color: Colors.white.withOpacity(0.6),
+                             color: Colors.white.withValues(alpha: 0.6),
                              fontSize: 14,
                            ),
                          ),
@@ -266,7 +267,7 @@ class OrbitalVoidGameWidget extends StatelessWidget {
                   child: Text(
                     controller.score.toString(),
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.5),
+                      color: Colors.white.withValues(alpha: 0.5),
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
                     ),

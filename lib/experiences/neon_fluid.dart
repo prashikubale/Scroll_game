@@ -107,7 +107,7 @@ class _ParticlePainter extends CustomPainter {
     // Using standard srcOver with opacity for now, or modulate.
     
     for (var p in particles) {
-      paint.color = p.color.withOpacity(p.life);
+      paint.color = p.color.withValues(alpha: p.life);
       paint.strokeWidth = p.life * 10;
       paint.strokeCap = StrokeCap.round;
       

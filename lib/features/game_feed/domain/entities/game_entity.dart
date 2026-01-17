@@ -48,14 +48,27 @@ enum ExperienceType {
   causalityEcho,
   voidMirror,
 
-  // Cognitive Teasers
-  sympatheticResonance,
-  voidStare,
+  // Cognitive Teasers (The 20 Micro-Disruptions)
+  kineticSilence,
   anticipatoryShadow,
-  invertedFriction,
-  chromaticSilence,
-  metaDecay,
+  voidBlink,
+  frictionInversion,
+  chromaticDecay,
+  echoCoordinates,
+  peripheralClarity,
+  weightlessHeavy,
   observerEffect,
+  elasticDistance,
+  sonicPaint,
+  momentumTrap,
+  vanishingPoint,
+  phaseShift,
+  mirrorLie,
+  magneticResistance,
+  memoryStain,
+  velocityLock,
+  binaryNoise,
+  unseenTether,
 }
 
 class ExperienceEntity extends Equatable {

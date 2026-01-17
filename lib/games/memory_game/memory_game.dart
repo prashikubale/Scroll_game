@@ -91,10 +91,6 @@ class MemoryGameController extends ChangeNotifier implements MiniGame {
   @override
   int get score => _score;
   
-  @override
-  void dispose() {
-    super.dispose();
-  }
 }
 
 class MemoryGameWidget extends StatelessWidget {

@@ -116,7 +116,7 @@ class PlayerComponent extends PositionComponent {
   void render(Canvas canvas) {
     // Glow effect
     final glowPaint = Paint()
-      ..color = Colors.yellow.withOpacity(0.3)
+      ..color = Colors.yellow.withValues(alpha: 0.3)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 15);
     canvas.drawCircle(Offset(size.x / 2, size.y / 2), size.x / 2 + 10, glowPaint);
     
@@ -133,7 +133,7 @@ class PlayerComponent extends PositionComponent {
     
     // Highlight
     final highlightPaint = Paint()
-      ..color = Colors.white.withOpacity(0.4);
+      ..color = Colors.white.withValues(alpha: 0.4);
     canvas.drawCircle(Offset(size.x / 3, size.y / 3), size.x / 4, highlightPaint);
   }
 }
@@ -196,7 +196,7 @@ class Obstacle extends PositionComponent {
     
     // Shadow
     final shadowPaint = Paint()
-      ..color = Colors.black.withOpacity(0.3)
+      ..color = Colors.black.withValues(alpha: 0.3)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4);
     canvas.drawRect(size.toRect().translate(2, 2), shadowPaint);
     
@@ -208,7 +208,7 @@ class Obstacle extends PositionComponent {
     
     // Highlight
     final highlightPaint = Paint()
-      ..color = Colors.white.withOpacity(0.2);
+      ..color = Colors.white.withValues(alpha: 0.2);
     canvas.drawRRect(
       RRect.fromRectAndRadius(
         Rect.fromLTWH(4, 4, size.x - 8, size.y / 3),

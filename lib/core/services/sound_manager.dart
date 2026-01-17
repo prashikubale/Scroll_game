@@ -27,7 +27,7 @@ class SoundManager {
       await _player.play(AssetSource('audio/$fileName'), volume: volume, mode: PlayerMode.lowLatency);
     } catch (e) {
       if (kDebugMode) {
-        print("Error playing sound '$fileName': $e");
+        debugPrint("Error playing sound '$fileName': $e");
       }
     }
   }

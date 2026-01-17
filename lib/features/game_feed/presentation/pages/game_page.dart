@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/services.dart'; // Import for HapticFeedback
 import 'package:confetti/confetti.dart'; // Import Confetti
 import '../../../../core/game/game_factory.dart';
-import '../../../../core/game/mini_game.dart';
 import '../../domain/entities/game_entity.dart';
 import '../../domain/entities/game_session.dart'; 
 import '../../../../games/whack_mole_game/whack_mole_game.dart'; 
@@ -184,12 +183,12 @@ class _GamePageState extends ConsumerState<GamePage> {
                         ),
                         borderRadius: BorderRadius.circular(30),
                         border: Border.all(
-                          color: Colors.white.withOpacity(0.1), 
+                          color: Colors.white.withValues(alpha: 0.1), 
                           width: 1
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.4),
+                            color: Colors.black.withValues(alpha: 0.4),
                             blurRadius: 15,
                             offset: const Offset(0, 8),
                           ),
@@ -231,7 +230,7 @@ class _GamePageState extends ConsumerState<GamePage> {
                                        begin: Alignment.topCenter,
                                        end: Alignment.bottomCenter,
                                        colors: [
-                                         Colors.black.withOpacity(0.8),
+                                         Colors.black.withValues(alpha: 0.8),
                                          Colors.transparent,
                                        ],
                                      ),
@@ -240,7 +239,7 @@ class _GamePageState extends ConsumerState<GamePage> {
                                      child: Text(
                                         widget.game.name.toUpperCase(),
                                         style: TextStyle(
-                                          color: Colors.white.withOpacity(0.9),
+                                          color: Colors.white.withValues(alpha: 0.9),
                                           fontSize: 16,
                                           fontWeight: FontWeight.w600,
                                           letterSpacing: 2.0,
@@ -288,7 +287,7 @@ class _GamePageState extends ConsumerState<GamePage> {
                         decoration: BoxDecoration(
                           color: const Color(0xFF1A1A1A),
                           borderRadius: const BorderRadius.vertical(top: Radius.circular(25)),
-                          border: Border(top: BorderSide(color: Colors.white.withOpacity(0.1))),
+                          border: Border(top: BorderSide(color: Colors.white.withValues(alpha: 0.1))),
                         ),
                         padding: const EdgeInsets.all(25),
                         child: Column(
@@ -297,12 +296,12 @@ class _GamePageState extends ConsumerState<GamePage> {
                           children: [
                             Row(
                               children: [
-                                Icon(Icons.auto_stories_rounded, color: Colors.cyanAccent.withOpacity(0.8)),
+                                Icon(Icons.auto_stories_rounded, color: Colors.cyanAccent.withValues(alpha: 0.8)),
                                 const SizedBox(width: 15),
                                 Text(
                                   "HOW TO PLAY",
                                   style: TextStyle(
-                                    color: Colors.white.withOpacity(0.9),
+                                    color: Colors.white.withValues(alpha: 0.9),
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                     letterSpacing: 1.5,
@@ -324,7 +323,7 @@ class _GamePageState extends ConsumerState<GamePage> {
                               width: double.infinity,
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.white.withOpacity(0.1),
+                                  backgroundColor: Colors.white.withValues(alpha: 0.1),
                                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                                   padding: const EdgeInsets.symmetric(vertical: 15),
                                 ),
