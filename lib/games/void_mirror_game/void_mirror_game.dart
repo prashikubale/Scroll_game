@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:math';
+
 import 'package:flutter/material.dart';
 import '../../core/game/mini_game.dart';
 
@@ -18,7 +18,7 @@ class VoidMirrorGameController extends ChangeNotifier implements MiniGame {
   final List<Rect> _obs2 = []; // Bottom Obstacles
   
   Timer? _gameTimer;
-  final Random _rnd = Random();
+
   
   Offset get p1Pos => _p1Pos;
   Offset get p2Pos => _p2Pos;

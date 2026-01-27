@@ -106,8 +106,7 @@ class AxisShiftGameController extends ChangeNotifier implements MiniGame {
     // Determine Gravity Vector based on _gravityRotation
     // 0 = Down (0, 0.001)
     double gPower = 0.0015;
-    double gx = sin(_gravityRotation) * gPower; // 0 -> 0, 90 -> 1 ... wait
-    double gy = cos(_gravityRotation) * gPower; // 0 -> 1, 90 -> 0
+
     // Fix:
     // 0 deg: Down (0, 1)
     // 90 deg: Right (1, 0)

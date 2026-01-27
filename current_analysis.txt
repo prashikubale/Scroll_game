@@ -1,0 +1,26 @@
+﻿Analyzing scroll_game_app...                                    
+
+warning - The method doesn't override an inherited method - lib\core\game\game_factory.dart:118:8 - override_on_non_overriding_member
+warning - The method doesn't override an inherited method - lib\core\game\game_factory.dart:120:8 - override_on_non_overriding_member
+warning - The getter doesn't override an inherited getter - lib\core\game\game_factory.dart:122:12 - override_on_non_overriding_member
+warning - The member 'hasListeners' can only be used within instance members of subclasses of 'package:flutter/src/foundation/change_notifier.dart' - lib\core\game\game_factory.dart:122:40 - invalid_use_of_protected_member
+warning - The method doesn't override an inherited method - lib\core\game\game_factory.dart:124:8 - override_on_non_overriding_member
+warning - The member 'notifyListeners' can only be used within 'package:flutter/src/foundation/change_notifier.dart' or a test - lib\core\game\game_factory.dart:124:41 - invalid_use_of_visible_for_testing_member
+warning - The member 'notifyListeners' can only be used within instance members of subclasses of 'package:flutter/src/foundation/change_notifier.dart' - lib\core\game\game_factory.dart:124:41 - invalid_use_of_protected_member
+warning - This default clause is covered by the previous cases - lib\core\game\game_factory.dart:234:7 - unreachable_switch_default
+warning - The declaration '_createKineticSilence' isn't referenced - lib\core\game\game_factory.dart:263:24 - unused_element
+   info - 'gyroscopeEvents' is deprecated and shouldn't be used. Use gyroscopeEventStream() instead - lib\experiences\gravity_orb.dart:58:25 - deprecated_member_use
+warning - This method overrides a method annotated as '@mustCallSuper' in 'DragCallbacks', but doesn't invoke the overridden method - lib\experiences\skill_challenges\archery_challenge.dart:55:8 - must_call_super
+warning - This method overrides a method annotated as '@mustCallSuper' in 'DragCallbacks', but doesn't invoke the overridden method - lib\experiences\skill_challenges\archery_challenge.dart:84:8 - must_call_super
+   info - 'HasGameRef' is deprecated and shouldn't be used. Use HasGameReference instead. This mixin will be removed in a future version of Flame - lib\experiences\skill_challenges\archery_challenge.dart:159:53 - deprecated_member_use
+   info - 'HasGameRef' is deprecated and shouldn't be used. Use HasGameReference instead. This mixin will be removed in a future version of Flame - lib\experiences\skill_challenges\drift_racer.dart:38:51 - deprecated_member_use
+   info - The import of 'package:flutter/services.dart' is unnecessary because all of the used elements are also provided by the import of 'package:flutter/material.dart' - lib\features\game_feed\presentation\pages\game_page.dart:3:8 - unnecessary_import
+warning - The value of the field '_slideAnimation' isn't used - lib\features\starting_page\presentation\pages\sun_starting_page.dart:15:26 - unused_field
+warning - The getter doesn't override an inherited getter - lib\games\cognitive_teasers\meta_decay.dart:20:12 - override_on_non_overriding_member
+warning - The getter doesn't override an inherited getter - lib\games\cognitive_teasers\observer_effect.dart:26:12 - override_on_non_overriding_member
+warning - The value of the field '_rnd' isn't used - lib\games\cognitive_teasers\sympathetic_resonance.dart:15:16 - unused_field
+   info - 'HasGameRef' is deprecated and shouldn't be used. Use HasGameReference instead. This mixin will be removed in a future version of Flame - lib\games\jump_game\jump_game.dart:141:46 - deprecated_member_use
+warning - The value of the local variable 'radius' isn't used - lib\games\orbital_void_game\orbital_void_game.dart:294:11 - unused_local_variable
+   info - Statements in an if should be enclosed in a block - lib\games\pong_game\pong_game.dart:72:42 - curly_braces_in_flow_control_structures
+warning - The value of the field '_rnd' isn't used - lib\games\void_mirror_game\void_mirror_game.dart:21:16 - unused_field
+

@@ -32,6 +32,14 @@ class TicTacToeController extends ChangeNotifier implements MiniGame {
     notifyListeners();
   }
 
+  bool _mounted = true;
+
+  @override
+  void dispose() {
+    _mounted = false;
+    super.dispose();
+  }
+
   Future<void> move(int index) async {
     // Player Move
     if (!_isPlaying || _board[index].isNotEmpty || _winner.isNotEmpty || !_isXTurn) return;
@@ -44,10 +52,12 @@ class TicTacToeController extends ChangeNotifier implements MiniGame {
     
     // AI Turn with small delay for realism
     await Future.delayed(const Duration(milliseconds: 500));
+    if (!_mounted) return; // FIX: Check if disposed
     if (!_isPlaying) return; // In case reset happened during delay
     
     _makeAiMove();
     _isXTurn = true;
+    if (!_mounted) return;
     notifyListeners();
     
     _checkEndGame();

@@ -35,13 +35,13 @@ class DriftRacer extends FlameGame with DragCallbacks implements MiniGame {
   void dispose() {}
 }
 
-class CarComponent extends PositionComponent with HasGameRef<DriftRacer> {
+class CarComponent extends PositionComponent with HasGameReference<DriftRacer> {
   double targetX;
   CarComponent({required Vector2 position}) : targetX = position.x, super(position: position, size: Vector2(40, 70), anchor: Anchor.center);
   void reset(double x) { position.x = x; targetX = x; }
   @override
   void update(double dt) {
-    targetX = targetX.clamp(30, gameRef.size.x - 30);
+    targetX = targetX.clamp(30, game.size.x - 30);
     position.x += (targetX - position.x) * 10 * dt;
     angle = (position.x - targetX) * 0.005;
   }

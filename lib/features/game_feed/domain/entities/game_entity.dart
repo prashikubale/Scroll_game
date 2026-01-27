@@ -14,6 +14,12 @@ enum ExperienceType {
   neonFluid,
   realityWarp,
   chaosButton,
+  
+  // Visual Zen Experiences
+  sunsetBeach,
+  featherSimulation,
+  blossomWind,
+  endlessWalker,
 
   // Skill Challenges
   archery,

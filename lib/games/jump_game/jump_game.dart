@@ -138,7 +138,7 @@ class PlayerComponent extends PositionComponent {
   }
 }
 
-class ObstacleManager extends Component with HasGameRef<JumpGame> {
+class ObstacleManager extends Component with HasGameReference<JumpGame> {
   double _timer = 0;
   int score = 0;
 
@@ -163,11 +163,11 @@ class ObstacleManager extends Component with HasGameRef<JumpGame> {
 
   void _spawnObstacle() {
     final gapHeight = 150.0;
-    final gameHeight = gameRef.size.y;
+    final gameHeight = game.size.y;
     final gapY = Random().nextDouble() * (gameHeight - 200) + 100;
 
-    add(Obstacle(Vector2(gameRef.size.x, 0), Vector2(50, gapY - gapHeight / 2)));
-    add(Obstacle(Vector2(gameRef.size.x, gapY + gapHeight / 2), Vector2(50, gameHeight - (gapY + gapHeight / 2))));
+    add(Obstacle(Vector2(game.size.x, 0), Vector2(50, gapY - gapHeight / 2)));
+    add(Obstacle(Vector2(game.size.x, gapY + gapHeight / 2), Vector2(50, gameHeight - (gapY + gapHeight / 2))));
   }
 
   void reset() {

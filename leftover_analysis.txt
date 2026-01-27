@@ -1,0 +1,7 @@
+﻿Analyzing scroll_game_app...                                    
+
+warning - This default clause is covered by the previous cases - lib\core\game\game_factory.dart:230:7 - unreachable_switch_default
+   info - The import of 'package:flutter/services.dart' is unnecessary because all of the used elements are also provided by the import of 'package:flutter/material.dart' - lib\features\game_feed\presentation\pages\game_page.dart:3:8 - unnecessary_import
+   info - Statements in an if should be enclosed in a block - lib\games\pong_game\pong_game.dart:72:42 - curly_braces_in_flow_control_structures
+warning - Unused import: 'dart:math' - lib\games\void_mirror_game\void_mirror_game.dart:2:8 - unused_import
+

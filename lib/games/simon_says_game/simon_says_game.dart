@@ -39,21 +39,26 @@ class SimonSaysController extends ChangeNotifier implements MiniGame {
     _showSequence();
   }
 
+  bool _isDisposed = false;
+
   Future<void> _showSequence() async {
     _showingSequence = true;
-    notifyListeners();
+    if (!_isDisposed) notifyListeners();
     
     for (int i = 0; i < _sequence.length; i++) {
+      if (_isDisposed) return;
       await Future.delayed(const Duration(milliseconds: 600));
+      if (_isDisposed) return;
       _currentShowIndex = _sequence[i];
       notifyListeners();
       await Future.delayed(const Duration(milliseconds: 400));
+      if (_isDisposed) return;
       _currentShowIndex = -1;
       notifyListeners();
     }
     
     _showingSequence = false;
-    notifyListeners();
+    if (!_isDisposed) notifyListeners();
   }
 
   void onColorTap(int index) {
@@ -85,6 +90,13 @@ class SimonSaysController extends ChangeNotifier implements MiniGame {
   void reset() {
     _isPlaying = false;
     start();
+  }
+
+  @override
+  void dispose() {
+    _isDisposed = true;
+    _isPlaying = false; // Stop any logic
+    super.dispose();
   }
 
   @override

@@ -54,6 +54,7 @@ class CatchGameController extends ChangeNotifier implements MiniGame {
   }
 
   void _spawnObject() {
+    if (_objects.length >= 30) return; // limit to 30 objects
     final random = Random();
     _objects.add(FallingObject(
       x: random.nextDouble() * 0.8 + 0.1,
@@ -66,8 +67,8 @@ class CatchGameController extends ChangeNotifier implements MiniGame {
     _objects.removeWhere((obj) {
       obj.y += 0.01;
       
-      // Check collision with basket
-      if (obj.y >= 0.85 && obj.y <= 0.9 && (obj.x - _basketX).abs() < 0.08) {
+      // Check collision with basket (widened hitbox for better gameplay)
+      if (obj.y >= 0.8 && obj.y <= 0.95 && (obj.x - _basketX).abs() < 0.15) {
         if (obj.isGood) {
           _score += 10;
         } else {
@@ -154,7 +155,7 @@ class CatchGameWidget extends StatelessWidget {
                 // Basket
                 Positioned(
                   left: controller.basketX * MediaQuery.of(context).size.width - 40,
-                  bottom: 100,
+                  top: 0.8 * MediaQuery.of(context).size.height,
                   child: Container(
                     width: 80,
                     height: 60,

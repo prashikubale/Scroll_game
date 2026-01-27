@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 // import 'package:sensors_plus/sensors_plus.dart'; 
 // Note: Imports might need adjustment based on pubspec. Using standard assumption.
+import 'package:flutter/foundation.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 
 class GravityOrb extends StatefulWidget {
@@ -23,6 +24,7 @@ class _GravityOrbState extends State<GravityOrb> with SingleTickerProviderStateM
   
   // Sensor Subscription
   StreamSubscription<GyroscopeEvent>? _gyroSubscription;
+  Timer? _webTimer; // Fallback for web
   
   // Visual State
   late AnimationController _pulseController;
@@ -55,38 +57,61 @@ class _GravityOrbState extends State<GravityOrb> with SingleTickerProviderStateM
 
   void _startSensors() {
     _gyroSubscription?.cancel();
-    _gyroSubscription = gyroscopeEvents.listen((GyroscopeEvent event) {
-      if (!mounted) return;
-      
-      setState(() {
-         // Simple Euler integration
-         // Tilt (event.y) controls X, Tilt (event.x) controls Y
-         // Multiplier adjustments for feeling
-         double ax = event.y * 2.0; 
-         double ay = event.x * 2.0;
+    _webTimer?.cancel();
 
-         _vx += ax;
-         _vy += ay;
-         
-         // Friction/Damping
-         _vx *= 0.95;
-         _vy *= 0.95;
-         
-         _x += _vx;
-         _y += _vy;
-         
-         // Boundary constraints (soft bounce)
-         // Assuming normalized coordinates -1.0 to 1.0 (roughly)
-         if (_x > 150) { _x = 150; _vx = -_vx * 0.5; _changeColor(); }
-         if (_x < -150) { _x = -150; _vx = -_vx * 0.5; _changeColor(); }
-         if (_y > 250) { _y = 250; _vy = -_vy * 0.5; _changeColor(); }
-         if (_y < -250) { _y = -250; _vy = -_vy * 0.5; _changeColor(); }
+    if (kIsWeb) {
+      // Web Fallback: Gentle floating animation
+      _webTimer = Timer.periodic(const Duration(milliseconds: 16), (timer) {
+        if (!mounted) return;
+        setState(() {
+           // Simulate floating
+           double time = DateTime.now().millisecondsSinceEpoch / 1000.0;
+           _x = sin(time) * 30;
+           _y = cos(time * 0.7) * 30;
+        });
       });
-    });
+      return;
+    }
+
+    try {
+      _gyroSubscription = gyroscopeEventStream().listen((GyroscopeEvent event) {
+        if (!mounted) return;
+        
+        setState(() {
+           // Simple Euler integration
+           // Tilt (event.y) controls X, Tilt (event.x) controls Y
+           // Multiplier adjustments for feeling
+           double ax = event.y * 2.0; 
+           double ay = event.x * 2.0;
+
+           _vx += ax;
+           _vy += ay;
+           
+           // Friction/Damping
+           _vx *= 0.95;
+           _vy *= 0.95;
+           
+           _x += _vx;
+           _y += _vy;
+           
+           // Boundary constraints (soft bounce)
+           // Assuming normalized coordinates -1.0 to 1.0 (roughly)
+           if (_x > 150) { _x = 150; _vx = -_vx * 0.5; _changeColor(); }
+           if (_x < -150) { _x = -150; _vx = -_vx * 0.5; _changeColor(); }
+           if (_y > 250) { _y = 250; _vy = -_vy * 0.5; _changeColor(); }
+           if (_y < -250) { _y = -250; _vy = -_vy * 0.5; _changeColor(); }
+        });
+      }, onError: (e) {
+         debugPrint("Sensor Error: $e");
+      });
+    } catch (e) {
+       debugPrint("Sensor Init Error: $e");
+    }
   }
 
   void _stopSensors() {
     _gyroSubscription?.cancel();
+    _webTimer?.cancel();
   }
   
   void _changeColor() {

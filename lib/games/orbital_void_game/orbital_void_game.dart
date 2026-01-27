@@ -291,7 +291,7 @@ class VoidPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final center = size.center(Offset.zero);
-    final radius = size.width * 0.4;
+
     
     // Draw Planet (Player)
     final planetPaint = Paint()..color = Colors.purple.shade900;

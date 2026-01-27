@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -20,19 +19,18 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      showPerformanceOverlay: false,
       scrollBehavior: AppScrollBehavior(),
-      title: 'Arcade Mini Games',
+      title: 'Chillax Scroll',
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: Colors.black,
         primaryColor: Colors.deepPurple,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.deepPurple, 
-          brightness: Brightness.dark
+          seedColor: Colors.deepPurple,
+          brightness: Brightness.dark,
         ),
         textTheme: GoogleFonts.poppinsTextTheme(ThemeData.dark().textTheme),
       ),

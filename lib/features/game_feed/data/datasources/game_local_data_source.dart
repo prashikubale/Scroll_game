@@ -28,6 +28,34 @@ class GameLocalDataSourceImpl implements GameLocalDataSource {
   Future<List<ExperienceEntity>> getGames() async {
     // 1. POOL A: VISUAL EXPERIENCES & TOYS
     List<ExperienceEntity> experiencePool = [
+      const ExperienceEntity(
+        id: 'zen_sunset',
+        name: 'Vapor Sunset',
+        description: 'Just watch the sun loop.',
+        type: ExperienceType.sunsetBeach,
+        assetPath: '',
+      ),
+      const ExperienceEntity(
+        id: 'zen_feathers',
+        name: 'Soft Feathers',
+        description: 'Gentle falling dynamics.',
+        type: ExperienceType.featherSimulation,
+        assetPath: '',
+      ),
+      const ExperienceEntity(
+        id: 'zen_blossoms',
+        name: 'Sakura Wind',
+        description: 'Pink petals in the breeze.',
+        type: ExperienceType.blossomWind,
+        assetPath: '',
+      ),
+      const ExperienceEntity(
+        id: 'zen_walker',
+        name: 'Night Walk',
+        description: 'Keep moving forward.',
+        type: ExperienceType.endlessWalker,
+        assetPath: '',
+      ),
       // NEW PHYSICS/SHADER
       const ExperienceEntity(
         id: 'exp_gravity_orb',

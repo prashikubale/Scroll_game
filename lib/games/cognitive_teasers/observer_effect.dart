@@ -22,7 +22,6 @@ class ObserverEffectController extends ChangeNotifier implements MiniGame {
   double get time => _time;
   @override
   int get score => _score;
-  @override
   bool get isPlaying => _isPlaying;
 
   @override

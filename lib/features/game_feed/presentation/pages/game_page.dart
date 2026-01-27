@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter/services.dart'; // Import for HapticFeedback
+ // Import for HapticFeedback
 import 'package:confetti/confetti.dart'; // Import Confetti
 import '../../../../core/game/game_factory.dart';
 import '../../domain/entities/game_entity.dart';
@@ -264,8 +264,7 @@ class _GamePageState extends ConsumerState<GamePage> {
                 BottomActionBar(
                   isLiked: _isLiked,
                   onLike: () {
-                    SoundManager().playTap(); // Sound on Action
-                    HapticFeedback.lightImpact();
+                    SoundManager().playTap(); // Sound on Action + Haptics (Safely)
                     setState(() => _isLiked = !_isLiked);
                   },
                   onReplay: () {

@@ -16,7 +16,6 @@ class MetaDecayController extends ChangeNotifier implements MiniGame {
   List<Offset> get dustParticles => _dustParticles; 
   @override
   int get score => _score;
-  @override
   bool get isPlaying => _isPlaying;
 
   @override

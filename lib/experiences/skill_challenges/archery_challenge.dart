@@ -53,6 +53,7 @@ class ArcheryChallenge extends FlameGame with DragCallbacks, HasCollisionDetecti
 
   @override
   void onDragStart(DragStartEvent event) {
+    super.onDragStart(event);
     if (_activeArrow == null || _activeArrow!.isFlying) return;
     _isDragging = true;
     _dragStart = event.localPosition;
@@ -61,6 +62,7 @@ class ArcheryChallenge extends FlameGame with DragCallbacks, HasCollisionDetecti
 
   @override
   void onDragUpdate(DragUpdateEvent event) {
+    super.onDragUpdate(event);
     if (!_isDragging) return;
     _dragCurrent += event.localDelta;
     final dragVector = _dragStart - _dragCurrent;
@@ -82,6 +84,7 @@ class ArcheryChallenge extends FlameGame with DragCallbacks, HasCollisionDetecti
 
   @override
   void onDragEnd(DragEndEvent event) {
+    super.onDragEnd(event);
     if (!_isDragging || _activeArrow == null) return;
     _isDragging = false;
     
@@ -156,7 +159,7 @@ class BowComponent extends PositionComponent {
   }
 }
 
-class ArrowComponent extends PositionComponent with HasGameRef<ArcheryChallenge> {
+class ArrowComponent extends PositionComponent with HasGameReference<ArcheryChallenge> {
   Vector2 velocity = Vector2.zero();
   bool isFlying = false;
   
@@ -183,10 +186,10 @@ class ArrowComponent extends PositionComponent with HasGameRef<ArcheryChallenge>
     // Check collisions manually for simplicity or use Hitbox
     // Simple distance check against targets
     bool hit = false;
-    for (final target in gameRef.children.whereType<TargetComponent>()) {
+    for (final target in game.children.whereType<TargetComponent>()) {
       if (target.containsPoint(position)) {
         int points = target.getPoints(position);
-        gameRef.onArrowHit(position, points);
+        game.onArrowHit(position, points);
         target.removeFromParent();
         removeFromParent(); // Arrow stuck
         hit = true;
@@ -195,8 +198,8 @@ class ArrowComponent extends PositionComponent with HasGameRef<ArcheryChallenge>
     }
     
     if (!hit) {
-      if (position.y > gameRef.size.y || position.x < 0 || position.x > gameRef.size.x || position.y < -200) {
-        gameRef.onArrowMiss();
+      if (position.y > game.size.y || position.x < 0 || position.x > game.size.x || position.y < -200) {
+        game.onArrowMiss();
         removeFromParent();
       }
     }

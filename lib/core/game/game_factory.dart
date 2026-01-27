@@ -42,6 +42,11 @@ import '../../experiences/skill_challenges/archery_challenge.dart';
 import '../../experiences/skill_challenges/precision_target.dart';
 import '../../experiences/skill_challenges/drift_racer.dart';
 
+import '../../experiences/visuals/sunset_beach.dart';
+import '../../experiences/visuals/feather_simulation.dart';
+import '../../experiences/visuals/blossom_wind.dart';
+import '../../experiences/visuals/endless_walker.dart';
+
 import 'mini_game.dart';
 
 // --- GENERIC CONTROLLER FOR EXPERIENCES ---
@@ -101,7 +106,7 @@ class ActiveExperienceWrapper extends StatelessWidget {
 }
 
 // Adapter to treat Interactions as MiniGames (Existing)
-class InteractionAdapter implements MiniGame {
+class InteractionAdapter implements MiniGame, Listenable {
   final InteractionController _controller;
   InteractionAdapter(this._controller);
   @override
@@ -118,10 +123,6 @@ class InteractionAdapter implements MiniGame {
   void addListener(VoidCallback listener) => _controller.addListener(listener);
   @override
   void removeListener(VoidCallback listener) => _controller.removeListener(listener);
-  @override
-  bool get hasListeners => _controller.hasListeners;
-  @override
-  void notifyListeners() => _controller.notifyListeners();
 }
 
 class GameInstances {
@@ -171,6 +172,32 @@ abstract class GameFactory {
         final game = DriftRacer();
         return GameInstances(GameWidget(game: game), game);
 
+      // --- VISUAL ZEN EXPERIENCES ---
+      case ExperienceType.sunsetBeach:
+        final ctrl = GenericExperienceController();
+        return GameInstances(
+          ActiveExperienceWrapper(controller: ctrl, builder: (active) => SunsetBeach(active: active)),
+          ctrl,
+        );
+      case ExperienceType.featherSimulation:
+         final ctrl = GenericExperienceController();
+         return GameInstances(
+           ActiveExperienceWrapper(controller: ctrl, builder: (active) => FeatherSimulation(active: active)),
+           ctrl,
+         );
+      case ExperienceType.blossomWind:
+        final ctrl = GenericExperienceController();
+        return GameInstances(
+          ActiveExperienceWrapper(controller: ctrl, builder: (active) => BlossomWind(active: active)),
+          ctrl,
+        );
+      case ExperienceType.endlessWalker:
+        final ctrl = GenericExperienceController();
+        return GameInstances(
+          ActiveExperienceWrapper(controller: ctrl, builder: (active) => EndlessWalker(active: active)),
+          ctrl,
+        );
+
       // --- NEWLY ACTIVATED GAMES ---
       case ExperienceType.catchGame: return _createCatchGame();
       case ExperienceType.colorSwitch: return _createColorSwitchGame();
@@ -195,11 +222,11 @@ abstract class GameFactory {
       case ExperienceType.voidMirror: return _createVoidMirror();
 
       // --- COGNITIVE TEASERS (20 Micro-Disruptions) ---
-      case ExperienceType.kineticSilence: return _createKineticSilence();
+      case ExperienceType.kineticSilence: return _createSympatheticResonance();
       case ExperienceType.anticipatoryShadow: return _createAnticipatoryShadow(); // Reusing existing or need update
-      case ExperienceType.voidBlink: return _createPlaceholder('Void Blink');
+      case ExperienceType.voidBlink: return _createVoidStare();
       case ExperienceType.frictionInversion: return _createInvertedFriction(); // Reusing
-      case ExperienceType.chromaticDecay: return _createPlaceholder('Chromatic Decay');
+      case ExperienceType.chromaticDecay: return _createChromaticSilence();
       case ExperienceType.echoCoordinates: return _createPlaceholder('Echo Coordinates');
       case ExperienceType.peripheralClarity: return _createPlaceholder('Peripheral Clarity');
       case ExperienceType.weightlessHeavy: return _createPlaceholder('Weightless Heavy');
@@ -211,7 +238,7 @@ abstract class GameFactory {
       case ExperienceType.phaseShift: return _createPlaceholder('Phase Shift');
       case ExperienceType.mirrorLie: return _createPlaceholder('Mirror Lie');
       case ExperienceType.magneticResistance: return _createPlaceholder('Magnetic Resistance');
-      case ExperienceType.memoryStain: return _createPlaceholder('Memory Stain');
+      case ExperienceType.memoryStain: return _createMetaDecay();
       case ExperienceType.velocityLock: return _createPlaceholder('Velocity Lock');
       case ExperienceType.binaryNoise: return _createPlaceholder('Binary Noise');
       case ExperienceType.unseenTether: return _createPlaceholder('Unseen Tether');
@@ -231,10 +258,9 @@ abstract class GameFactory {
       case ExperienceType.memory: return _createMemoryGame();
       case ExperienceType.brickBreaker: return _createBrickBreakerGame();
       // ... allow generic fallthrough for others if needed or map them
-      default:
-        return _createPlaceholder(game.name);
     }
   }
+
 
   // ... (Legacy factories kept for now or commented out to save space/time if not used in data source) ...
   // Minimal set for compilation since we removed them from Data Source:
@@ -260,13 +286,10 @@ abstract class GameFactory {
   }
 
   // --- NEW FACTORY METHODS ---
-  static GameInstances _createKineticSilence() {
-    return _createPlaceholder('Kinetic Silence');
-  }
 
   static GameInstances _createCatchGame() {
     final ctrl = CatchGameController();
-    return GameInstances(CatchGameWidget(controller: ctrl), ctrl);
+    return GameInstances(RepaintBoundary(child: CatchGameWidget(controller: ctrl)), ctrl);
   }
   static GameInstances _createColorSwitchGame() {
     final ctrl = ColorSwitchController();

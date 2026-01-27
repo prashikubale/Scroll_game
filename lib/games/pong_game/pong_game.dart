@@ -69,7 +69,9 @@ class PongController extends ChangeNotifier implements MiniGame {
        // AI tries to center paddle on ball
        if (_aiX < targetX - 0.02) {
          _aiX += 0.012;
-       } else if (_aiX > targetX + 0.02) _aiX -= 0.012;
+       } else if (_aiX > targetX + 0.02) {
+         _aiX -= 0.012;
+       }
     }
     _aiX = _aiX.clamp(paddleWidth / 2, 1.0 - paddleWidth / 2);
     

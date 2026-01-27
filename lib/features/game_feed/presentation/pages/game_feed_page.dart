@@ -44,7 +44,9 @@ class GameFeedPage extends ConsumerWidget {
                 },
                 itemBuilder: (context, index) {
                   // Double safety check
-                  if (index >= games.length) return const SizedBox.shrink();
+                  if (index < 0 || index >= games.length) {
+                    return const SizedBox.shrink();
+                  }
                   final game = games[index];
                   return GamePage(game: game, index: index);
                 },

@@ -319,12 +319,22 @@ class RandomOutcomeController extends InteractionController {
     
     // Simulate spin visually
     for(int i=0; i<15; i++) {
+        if (!_mounted) return;
         await Future.delayed(Duration(milliseconds: 50 + (i*i*2))); // Decelerate
+        if (!_mounted) return;
         _outcome = _answers[Random().nextInt(_answers.length)];
         notifyListeners();
     }
+    if (!_mounted) return;
     _spinning = false;
     notifyListeners();
+  }
+
+  bool _mounted = true;
+  @override
+  void dispose() {
+    _mounted = false;
+    super.dispose();
   }
 
   @override
@@ -453,10 +463,15 @@ class EmotionalMeterWidget extends StatelessWidget {
         IconData icon;
         if (controller.value > 0.8) {
           icon = Icons.sentiment_very_satisfied;
-        } else if (controller.value > 0.6) icon = Icons.sentiment_satisfied;
-        else if (controller.value > 0.4) icon = Icons.sentiment_neutral;
-        else if (controller.value > 0.2) icon = Icons.sentiment_dissatisfied;
-        else icon = Icons.sentiment_very_dissatisfied;
+        } else if (controller.value > 0.6) {
+          icon = Icons.sentiment_satisfied;
+        } else if (controller.value > 0.4) {
+          icon = Icons.sentiment_neutral;
+        } else if (controller.value > 0.2) {
+          icon = Icons.sentiment_dissatisfied;
+        } else {
+          icon = Icons.sentiment_very_dissatisfied;
+        }
 
         return Container(
           decoration: BoxDecoration(gradient: bgGradient),

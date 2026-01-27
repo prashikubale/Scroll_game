@@ -12,7 +12,6 @@ class SunStartingPage extends StatefulWidget {
 class _SunStartingPageState extends State<SunStartingPage> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _pulseAnimation;
-  late Animation<double> _slideAnimation;
 
   @override
   void initState() {
@@ -24,10 +23,6 @@ class _SunStartingPageState extends State<SunStartingPage> with SingleTickerProv
 
     _pulseAnimation = Tween<double>(begin: 1.0, end: 1.1).animate(
       CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
-    
-    _slideAnimation = Tween<double>(begin: 30, end: 0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOut),
     );
   }
 

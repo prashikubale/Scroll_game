@@ -12,7 +12,7 @@ class SympatheticResonanceController extends ChangeNotifier implements MiniGame 
   bool _isTouchingVibratingLine = false;
   
   Timer? _gameTimer;
-  final Random _rnd = Random();
+
   
   // Getters
   double get vibrationIntensity => _vibrationIntensity;
