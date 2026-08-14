@@ -11,6 +11,9 @@
 .svn/
 .swiftpm/
 migrate_working_dir/
+Thumbs.db
+ehthumbs.db
+Desktop.ini
 
 # IntelliJ related
 *.iml
@@ -39,7 +42,42 @@ app.*.symbols
 # Obfuscation related
 app.*.map.json
 
-# Android Studio will place build artifacts here
+# Android Studio & Gradle build artifacts
 /android/app/debug
 /android/app/profile
 /android/app/release
+**/android/.gradle/
+**/android/local.properties
+**/android/app/libs/
+
+# iOS / macOS build artifacts
+**/ios/Flutter/App.framework
+**/ios/Flutter/Flutter.framework
+**/ios/Flutter/Flutter.podspec
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/app.flttmp
+**/ios/Flutter/ephemeral/
+**/ios/Runner/GeneratedPluginRegistrant.h
+**/ios/Runner/GeneratedPluginRegistrant.m
+**/ios/Pods/
+**/ios/.symlinks/
+**/ios/profile
+**/ios/release
+**/macos/Flutter/ephemeral/
+**/macos/Pods/
+
+# Windows desktop build artifacts
+**/windows/flutter/ephemeral/
+
+# Linux desktop build artifacts
+**/linux/flutter/ephemeral/
+
+# Keys & Secrets
+*.keystore
+*.jks
+*.p12
+*.pem
+*.mobileprovision
+.env
+.env.*
+
